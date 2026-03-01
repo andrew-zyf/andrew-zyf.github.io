@@ -37,7 +37,7 @@
             border: 1px solid var(--card-border);
             border-radius: 24px;
             padding: 40px;
-            max-width: 600px; /* 稍微加宽以适应更长的产品标签 */
+            max-width: 620px; 
             width: 100%;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
@@ -89,15 +89,24 @@
             color: var(--text-muted);
             font-size: 1rem;
             line-height: 1.6;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
 
-        .skills {
+        /* 标签区域分组样式 */
+        .skills-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 12px;
+            gap: 20px;
             margin-bottom: 32px;
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
         }
 
         .product-group {
@@ -111,9 +120,9 @@
             background: var(--tag-bg);
             color: var(--accent-color);
             border: 1px solid var(--tag-border);
-            padding: 6px 14px;
+            padding: 8px 16px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 500;
             transition: all 0.2s;
             cursor: default;
@@ -121,9 +130,9 @@
         }
 
         .skill-tag.product {
-            background: rgba(74, 222, 128, 0.1);
+            background: rgba(74, 222, 128, 0.08);
             color: var(--sales-color);
-            border-color: rgba(74, 222, 128, 0.2);
+            border-color: rgba(74, 222, 128, 0.25);
             font-weight: 600;
         }
 
@@ -137,10 +146,12 @@
             color: #0d1117;
         }
 
+        /* 社交链接按钮 */
         .links {
             display: flex;
             justify-content: center;
             gap: 16px;
+            margin-top: 10px;
         }
 
         .btn {
@@ -182,18 +193,26 @@
         <div class="title">Sr. FPGA System Architect & Comtech Sales</div>
         
         <p class="bio">
-            Based in Shenzhen, I am a Sr. FPGA System Architect & Comtech Sales. I work at the intersection of semiconductors, system architecture, and real-world applications, helping customers choose and design with the right compute platforms.
+            Based in Shenzhen. I work at the intersection of semiconductors, system architecture, and real-world applications, helping customers choose and design with the right compute platforms.
         </p>
 
-        <div class="skills">
-            <div class="product-group">
-                <span class="skill-tag product">AMD FPGA/Zynq/Versal/Embedded x86</span>
-                <span class="skill-tag product">NVIDIA Networking / RTX PRO / Jetson Embedded</span>
+        <div class="skills-container">
+            <div>
+                <div class="section-label">🛠️ Technical Expertise</div>
+                <div class="product-group">
+                    <span class="skill-tag">System Architecture</span>
+                    <span class="skill-tag">AI Inference & Vision</span>
+                    <span class="skill-tag">Multimodal Edge AI</span>
+                    <span class="skill-tag">HW/SW Co-design</span>
+                </div>
             </div>
-            <div class="product-group">
-                <span class="skill-tag">System Architecture</span>
-                <span class="skill-tag">AI Inference & Vision</span>
-                <span class="skill-tag">Multimodal Edge AI</span>
+
+            <div>
+                <div class="section-label">💼 Products I Sell</div>
+                <div class="product-group">
+                    <span class="skill-tag product">AMD FPGA / Zynq / Versal / Embedded x86</span>
+                    <span class="skill-tag product">NVIDIA Networking / RTX PRO / Jetson Embedded</span>
+                </div>
             </div>
         </div>
 
