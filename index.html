@@ -49,10 +49,11 @@
         .layout {
             display: grid;
             grid-template-columns: 320px 1fr;
+            grid-template-rows: 1fr auto;
             gap: 16px;
             max-width: 960px;
             width: 100%;
-            align-items: start;
+            align-items: stretch;
         }
 
         /* === Card base === */
@@ -88,12 +89,13 @@
             z-index: 2;
         }
 
-        /* === Profile Card (unified left) === */
+        /* === Profile Card === */
         .profile-card {
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
         }
 
         .avatar {
@@ -154,10 +156,16 @@
             line-height: 1.7;
         }
 
-        .social-links {
+        /* === Social Card === */
+        .social-card {
+            grid-column: 1;
+            grid-row: 2;
             display: flex;
-            gap: 12px;
-            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            padding: 20px 32px;
+            overflow: visible;
         }
 
         .social-btn {
@@ -188,8 +196,71 @@
             fill: currentColor;
         }
 
+        /* Social tooltip wrapper */
+        .social-wrap {
+            position: relative;
+        }
+
+        .social-tooltip {
+            position: absolute;
+            bottom: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: rgba(20, 28, 50, 0.95);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+            padding: 12px 16px;
+            white-space: nowrap;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            z-index: 10;
+        }
+
+        .social-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--border-glow);
+        }
+
+        .social-tooltip.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+            pointer-events: auto;
+        }
+
+        .social-tooltip .tip-title {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .social-tooltip .tip-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.75rem;
+        }
+
+        .social-tooltip .tip-link:hover {
+            text-decoration: underline;
+        }
+
+        .social-tooltip .tip-desc {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+
         /* === Right Bento === */
         .bento {
+            grid-column: 2;
+            grid-row: 1;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
@@ -236,29 +307,19 @@
             color: var(--bg-primary);
         }
 
-        /* Product cards — equal height */
-        .product-row {
-            display: contents;
-        }
-
+        /* Product cards */
         .amd-card, .nv-card {
             display: flex;
             flex-direction: column;
         }
 
-        .amd-card {
-            border-color: var(--amd-red-border);
-        }
-
+        .amd-card { border-color: var(--amd-red-border); }
         .amd-card:hover {
             border-color: rgba(255, 107, 107, 0.4);
             box-shadow: 0 8px 32px rgba(255, 107, 107, 0.08);
         }
 
-        .nv-card {
-            border-color: var(--nv-green-border);
-        }
-
+        .nv-card { border-color: var(--nv-green-border); }
         .nv-card:hover {
             border-color: rgba(118, 214, 142, 0.35);
             box-shadow: 0 8px 32px rgba(118, 214, 142, 0.06);
@@ -321,53 +382,6 @@
             box-shadow: 0 0 8px rgba(118, 214, 142, 0.4);
         }
 
-        /* Tooltip bubble */
-        .wechat-tooltip {
-            position: absolute;
-            bottom: calc(100% + 12px);
-            left: 50%;
-            transform: translateX(-50%) scale(0.9);
-            background: rgba(20, 28, 50, 0.95);
-            border: 1px solid var(--border-glow);
-            border-radius: 12px;
-            padding: 12px 16px;
-            white-space: nowrap;
-            font-size: 0.8rem;
-            color: var(--text-primary);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.25s ease, transform 0.25s ease;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-            z-index: 10;
-        }
-
-        .wechat-tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 6px solid transparent;
-            border-top-color: var(--border-glow);
-        }
-
-        .wechat-tooltip.show {
-            opacity: 1;
-            transform: translateX(-50%) scale(1);
-            pointer-events: auto;
-        }
-
-        .wechat-tooltip .tip-title {
-            font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 4px;
-        }
-
-        .wechat-tooltip .tip-desc {
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-        }
-
         /* === Animations === */
         .card {
             opacity: 0;
@@ -376,9 +390,10 @@
         }
 
         .profile-card { animation-delay: 0.05s; }
-        .bento .card:nth-child(1) { animation-delay: 0.12s; }
-        .bento .card:nth-child(2) { animation-delay: 0.2s; }
-        .bento .card:nth-child(3) { animation-delay: 0.28s; }
+        .bento .card:nth-child(1) { animation-delay: 0.1s; }
+        .bento .card:nth-child(2) { animation-delay: 0.18s; }
+        .bento .card:nth-child(3) { animation-delay: 0.26s; }
+        .social-card { animation-delay: 0.15s; }
 
         @keyframes cardIn {
             to { opacity: 1; transform: translateY(0); }
@@ -392,6 +407,7 @@
                 max-width: 480px;
             }
             .bento { grid-template-columns: 1fr; }
+            .social-card { grid-column: 1; }
             .profile-card { padding: 28px 24px; }
         }
     </style>
@@ -399,7 +415,7 @@
 <body>
 
     <div class="layout">
-        <!-- Left: Unified Profile -->
+        <!-- Left: Profile -->
         <div class="card profile-card">
             <div class="glow"></div>
             <img src="https://github.com/andrew-zyf.png" alt="Andrew Zyf" class="avatar">
@@ -411,24 +427,6 @@
 
             <p class="bio-en">Bridging semiconductors, system architecture, and real-world applications — from concept to commercial deployment.</p>
             <p class="bio-zh">融合半导体技术与系统架构，从顶层设计到商业落地的端到端支持。</p>
-
-            <div class="social-links" style="position: relative;">
-                <a href="https://github.com/andrew-zyf" target="_blank" rel="noopener noreferrer" class="social-btn" title="GitHub">
-                    <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
-                </a>
-                <a href="https://x.com/andrew_zyf" target="_blank" rel="noopener noreferrer" class="social-btn" title="X (Twitter)">
-                    <svg viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg>
-                </a>
-                <span style="position: relative;">
-                    <a href="javascript:void(0)" class="social-btn wechat-trigger" title="微信公众号: AI & FPGA" style="cursor: pointer;">
-                        <svg viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 01.598.082l1.584.926a.272.272 0 00.14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 01-.023-.156.49.49 0 01.201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-2.036 2.84c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.983.97-.983zm4.844 0c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.983.969-.983z"></path></svg>
-                    </a>
-                    <div class="wechat-tooltip" id="wechatTip">
-                        <div class="tip-title">微信公众号: AI & FPGA</div>
-                        <div class="tip-desc">微信 → 搜一搜 → 输入「AI & FPGA」</div>
-                    </div>
-                </span>
-            </div>
         </div>
 
         <!-- Right: Bento Grid -->
@@ -470,19 +468,56 @@
                 </ul>
             </div>
         </div>
+
+        <!-- Social Links -->
+        <div class="card social-card">
+            <div class="glow"></div>
+            <span class="social-wrap">
+                <a href="javascript:void(0)" class="social-btn social-trigger" data-tip="githubTip" title="GitHub">
+                    <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                </a>
+                <div class="social-tooltip" id="githubTip">
+                    <div class="tip-title">GitHub</div>
+                    <a class="tip-link" href="https://github.com/andrew-zyf" target="_blank" rel="noopener noreferrer">github.com/andrew-zyf</a>
+                </div>
+            </span>
+            <span class="social-wrap">
+                <a href="javascript:void(0)" class="social-btn social-trigger" data-tip="xTip" title="X (Twitter)">
+                    <svg viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg>
+                </a>
+                <div class="social-tooltip" id="xTip">
+                    <div class="tip-title">X (Twitter)</div>
+                    <a class="tip-link" href="https://x.com/andrew_zyf" target="_blank" rel="noopener noreferrer">x.com/andrew_zyf</a>
+                </div>
+            </span>
+            <span class="social-wrap">
+                <a href="javascript:void(0)" class="social-btn social-trigger" data-tip="wechatTip" title="微信公众号: AI & FPGA">
+                    <svg viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 01.598.082l1.584.926a.272.272 0 00.14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 01-.023-.156.49.49 0 01.201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-2.036 2.84c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.983.97-.983zm4.844 0c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.983.969-.983z"></path></svg>
+                </a>
+                <div class="social-tooltip" id="wechatTip">
+                    <div class="tip-title">微信公众号: AI & FPGA</div>
+                    <div class="tip-desc">微信 → 搜一搜 → 输入「AI & FPGA」</div>
+                </div>
+            </span>
+        </div>
     </div>
 
     <script>
-        // WeChat tooltip toggle
-        const wechatBtn = document.querySelector('.wechat-trigger');
-        const wechatTip = document.getElementById('wechatTip');
-        wechatBtn.addEventListener('click', e => {
-            e.preventDefault();
-            wechatTip.classList.toggle('show');
+        // Social tooltip toggle
+        document.querySelectorAll('.social-trigger').forEach(btn => {
+            const tip = document.getElementById(btn.dataset.tip);
+            btn.addEventListener('click', e => {
+                e.preventDefault();
+                // Close other tooltips
+                document.querySelectorAll('.social-tooltip.show').forEach(t => {
+                    if (t !== tip) t.classList.remove('show');
+                });
+                tip.classList.toggle('show');
+            });
         });
         document.addEventListener('click', e => {
-            if (!wechatBtn.contains(e.target) && !wechatTip.contains(e.target)) {
-                wechatTip.classList.remove('show');
+            if (!e.target.closest('.social-wrap')) {
+                document.querySelectorAll('.social-tooltip.show').forEach(t => t.classList.remove('show'));
             }
         });
 
