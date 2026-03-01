@@ -1,6 +1,6 @@
 # Andrew Zyf - Personal Homepage
 
-Welcome to the deployment repository for my personal website, hosted on [GitHub Pages](https://andrew-zyf.github.io).
+Welcome to the deployment repository for my personal website, hosted on GitHub Pages.
 
 ## 👨‍💻 About Me
 
@@ -24,5 +24,3 @@ Based in Shenzhen, I am a Sr. FPGA System Architect & Comtech Sales. I work at t
 This repository serves as the public hosting space for my static personal webpage. It features a minimalist, dark-mode design built with pure HTML and CSS.
 
 > **Note:** The files in this repository are automatically deployed and synced from a private source repository using GitHub Actions. 
-
-👉 **[Visit the Live Site](https://andrew-zyf.github.io)**
