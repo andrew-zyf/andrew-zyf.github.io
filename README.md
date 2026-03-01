@@ -6,14 +6,16 @@ Welcome to the deployment repository for my personal website, hosted on [GitHub 
 
 **Sr. FPGA System Architect**
 
-I specialize in bridging the gap between hardware and software, focusing on high-performance computing and edge intelligence. 
+I work at the intersection of semiconductors, system architecture, and real-world applications, helping customers choose and design with the right compute platforms.
 
-- ⚡ **Core Focus:** FPGA + SoC HW/SW Co-design
-- 🤖 **Current Exploration:** Multimodal AI on Edge
-- 💡 **Tech Interests:** Continuously evaluating and optimizing architectures, with a keen interest in high-performance computing platforms including AMD and NVIDIA products.
+- ⚡ **Core Focus:** AMD FPGA/SoC and NVIDIA RTX/Jetson–based solution design
+- 🧠 **What I Do:** Translate application requirements into practical hardware & system architectures, especially for AI inference, vision, and industrial/edge scenarios
+- 🤖 **Current Exploration:** Multimodal AI on the edge, combining cameras, sensors, and real‑time analytics
+- 💡 **Tech Interests:** Evaluating and comparing high‑performance computing platforms (AMD Versal/Zynq, NVIDIA RTX/Jetson, high‑speed networking) for performance, cost, and deployability
 
 ## 🔗 Connect with Me
 
+- 🌐 [andrew-zyf.github.io](https://andrew-zyf.github.io)
 - 🐦 [X (Twitter)](https://x.com/andrew_zyf)
 - 🐙 [GitHub Profile](https://github.com/andrew-zyf)
 
@@ -21,4 +23,6 @@ I specialize in bridging the gap between hardware and software, focusing on high
 
 This repository serves as the public hosting space for my static personal webpage. It features a minimalist, dark-mode design built with pure HTML and CSS.
 
-> **Note:** The files in this repository are automatically deployed and synced from a private source repository using GitHub Actions.
+> **Note:** The files in this repository are automatically deployed and synced from a private source repository using GitHub Actions. 
+
+👉 **[Visit the Live Site](https://andrew-zyf.github.io)**
