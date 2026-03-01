@@ -14,7 +14,6 @@ I specialize in bridging the gap between hardware and software, focusing on high
 
 ## 🔗 Connect with Me
 
-- 🌐 [andrew-zyf.github.io](https://andrew-zyf.github.io)
 - 🐦 [X (Twitter)](https://x.com/andrew_zyf)
 - 🐙 [GitHub Profile](https://github.com/andrew-zyf)
 
@@ -22,6 +21,4 @@ I specialize in bridging the gap between hardware and software, focusing on high
 
 This repository serves as the public hosting space for my static personal webpage. It features a minimalist, dark-mode design built with pure HTML and CSS.
 
-> **Note:** The files in this repository are automatically deployed and synced from a private source repository using GitHub Actions. 
-
-👉 **[Visit the Live Site](https://andrew-zyf.github.io)**
+> **Note:** The files in this repository are automatically deployed and synced from a private source repository using GitHub Actions.
