@@ -11,9 +11,10 @@
             --card-border: rgba(255, 255, 255, 0.1);
             --text-main: #f0f6fc;
             --text-muted: #8b949e;
+            --text-zh: #7a828e; /* 中文专属稍微变暗的颜色 */
             --accent-color: #58a6ff;
-            --amd-color: #fca5a5; /* 突出核心业务的颜色 */
-            --nv-color: #86efac;  /* 辅助补充业务的颜色 */
+            --amd-color: #fca5a5; 
+            --nv-color: #86efac;  
         }
 
         body {
@@ -36,7 +37,7 @@
             border: 1px solid var(--card-border);
             border-radius: 24px;
             padding: 40px;
-            max-width: 650px; 
+            max-width: 680px; /* 稍微加宽以容纳双语内容 */
             width: 100%;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
@@ -79,16 +80,27 @@
             color: var(--accent-color);
             font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .bio {
-            color: var(--text-muted);
+        .bio-container {
+            margin-bottom: 30px;
+        }
+
+        .bio-en {
+            color: var(--text-main);
             font-size: 0.95rem;
             line-height: 1.6;
-            margin-bottom: 30px;
+            margin: 0 0 10px 0;
+        }
+
+        .bio-zh {
+            color: var(--text-zh);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin: 0;
         }
 
         /* 标签区域分组样式 */
@@ -99,23 +111,45 @@
             margin-bottom: 32px;
         }
 
-        .section-label {
-            font-size: 0.9rem;
-            color: #c9d1d9;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
+        .section-header {
             border-bottom: 1px solid var(--card-border);
             padding-bottom: 8px;
+            margin-bottom: 12px;
             display: inline-block;
         }
 
-        .sub-label {
+        .section-label-en {
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .section-label-zh {
+            font-size: 0.75rem;
+            color: var(--text-zh);
+            font-weight: 400;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .sub-label-container {
+            margin-bottom: 10px;
+        }
+
+        .sub-label-en {
             font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            font-weight: 500;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .sub-label-zh {
+            font-size: 0.75rem;
+            color: var(--text-zh);
+            font-weight: 400;
+            margin-left: 6px;
         }
 
         .product-group {
@@ -210,13 +244,21 @@
         <h1>Andrew Zyf</h1>
         <div class="title">Sr. FPGA System Architect & Comtech Sales</div>
         
-        <p class="bio">
-            Based in Shenzhen. I work at the intersection of semiconductors, system architecture, and real-world applications. My primary focus is driving solutions within the AMD adaptive computing ecosystem, while providing complementary NVIDIA networking and edge products to help customers build complete system architectures.
-        </p>
+        <div class="bio-container">
+            <p class="bio-en">
+                Based in Shenzhen. I work at the intersection of semiconductors, system architecture, and real-world applications. My primary focus is driving solutions within the AMD adaptive computing ecosystem, while providing complementary NVIDIA networking and edge products to help customers build complete system architectures.
+            </p>
+            <p class="bio-zh">
+                坐标深圳。我的工作致力于将半导体技术、系统架构与真实应用场景相融合。我专注于提供基于 AMD 自适应与嵌入式计算生态的解决方案，同时提供 NVIDIA 网络与边缘计算产品作为辅助与补充，帮助客户构建完整的高性能系统架构。
+            </p>
+        </div>
 
         <div class="skills-container">
             <div>
-                <div class="section-label">🛠️ Technical Expertise</div>
+                <div class="section-header">
+                    <span class="section-label-en">🛠️ Technical Expertise</span>
+                    <span class="section-label-zh">核心架构能力</span>
+                </div>
                 <div class="product-group">
                     <span class="skill-tag">System Architecture</span>
                     <span class="skill-tag">AI Inference & Vision</span>
@@ -226,14 +268,23 @@
             </div>
 
             <div>
-                <div class="section-label">💼 Products I Sell</div>
+                <div class="section-header">
+                    <span class="section-label-en">💼 Products I Sell</span>
+                    <span class="section-label-zh">销售产品矩阵</span>
+                </div>
                 
-                <div class="sub-label">🔴 Core Portfolio (Primary Focus)</div>
-                <div class="product-group" style="margin-bottom: 12px;">
+                <div class="sub-label-container">
+                    <span class="sub-label-en">🔴 Core Portfolio</span>
+                    <span class="sub-label-zh">(核心主推业务)</span>
+                </div>
+                <div class="product-group" style="margin-bottom: 16px;">
                     <span class="skill-tag core">AMD FPGA / Zynq / Versal / Embedded x86</span>
                 </div>
 
-                <div class="sub-label">🟢 Complementary Solutions</div>
+                <div class="sub-label-container">
+                    <span class="sub-label-en">🟢 Complementary Solutions</span>
+                    <span class="sub-label-zh">(生态补充方案)</span>
+                </div>
                 <div class="product-group">
                     <span class="skill-tag comp">NVIDIA Networking / RTX PRO / Jetson Embedded</span>
                 </div>
