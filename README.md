@@ -4,18 +4,18 @@ Welcome to the deployment repository for my personal website, hosted on [GitHub 
 
 ## 👨‍💻 About Me
 
-**Sr. FPGA System Architect & Comtech Sales | Shenzhen (深圳)**
+**Sr. FPGA System Architect & Account Manager @ Comtech | Shenzhen (深圳)**
 
-I work at the intersection of semiconductors, system architecture, and real-world applications. My primary focus is driving solutions within the AMD adaptive computing ecosystem, while providing complementary NVIDIA networking and edge products to help customers build complete system architectures.
+I work at the intersection of semiconductors, system architecture, and real-world applications. My primary focus is driving solutions within the AMD adaptive computing ecosystem, while providing complementary NVIDIA networking and edge products to help customers build complete system architectures from concept to commercial deployment.
 
-*(我的工作致力于将半导体技术、系统架构与真实应用场景相融合。主营基于 AMD 生态的解决方案，辅以 NVIDIA 网络与边缘计算产品，帮助客户构建完整的系统架构。)*
+*(我的工作致力于将半导体技术、系统架构与真实应用场景相融合。我专注于提供基于 AMD 生态的核心计算解决方案，同时辅以 NVIDIA 网络与边缘计算产品，为客户提供从顶层架构设计到商业供货的端到端支持。)*
 
 ### 🛠️ Technical Expertise | 核心架构能力
 - **System Architecture:** AI inference, vision, and industrial/edge scenarios.
 - **Current Exploration:** Multimodal AI on the edge.
-- **Tech Interests:** HW/SW Co-design, High-Speed Networking.
+- **Key Skills:** HW/SW Co-design, High-Speed Networking, AI Inference.
 
-### 💼 Products I Sell | 销售产品矩阵
+### 💼 Products I Sell & Support | 销售产品矩阵
 - 🔴 **Core Portfolio (核心主推):** **AMD** FPGA / Zynq / Versal / Embedded x86
 - 🟢 **Complementary Solutions (生态补充):** **NVIDIA** Networking / RTX PRO / Jetson Embedded
 
