@@ -36,7 +36,7 @@
             border: 1px solid var(--card-border);
             border-radius: 24px;
             padding: 40px;
-            max-width: 500px;
+            max-width: 550px; /* 稍微加宽了一点以适应新的内容 */
             width: 100%;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
@@ -119,6 +119,16 @@
             color: #0d1117; 
         }
 
+        /* 仅作为展示的标签（不可点击） */
+        span.skill-tag {
+            cursor: default;
+        }
+        
+        span.skill-tag:hover {
+            background: var(--tag-bg);
+            color: var(--accent-color);
+        }
+
         /* 社交链接按钮 */
         .links {
             display: flex;
@@ -165,15 +175,15 @@
         <div class="title">Sr. FPGA System Architect</div>
         
         <p class="bio">
-            Bridging the gap between hardware and software. Focused on high-performance computing architectures and bringing intelligent algorithms to the edge.
+            I work at the intersection of semiconductors, system architecture, and real-world applications, helping customers choose and design with the right compute platforms.
         </p>
 
         <div class="skills">
-            <span class="skill-tag">FPGA + SoC</span>
-            <span class="skill-tag">HW/SW Co-design</span>
+            <span class="skill-tag">System Architecture</span>
+            <span class="skill-tag">AI Inference & Vision</span>
             <span class="skill-tag">Multimodal Edge AI</span>
-            <a href="https://www.amd.com/en/products/adaptive-socs-and-fpgas.html" target="_blank" rel="noopener noreferrer" class="skill-tag">AMD - Adaptive SoCs and FPGAs</a>
-            <a href="https://developer.nvidia.com/embedded-computing" target="_blank" rel="noopener noreferrer" class="skill-tag">NVIDIA - Jetson - Embedded AI Computing Platform</a>
+            <a href="https://www.amd.com/en/products/adaptive-socs-and-fpgas.html" target="_blank" rel="noopener noreferrer" class="skill-tag">AMD FPGA / SoC</a>
+            <a href="https://developer.nvidia.com/embedded-computing" target="_blank" rel="noopener noreferrer" class="skill-tag">NVIDIA RTX / Jetson</a>
         </div>
 
         <div class="links">
