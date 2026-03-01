@@ -24,6 +24,7 @@ I work at the intersection of semiconductors, system architecture, and real-worl
 - 🌐 [andrew-zyf.github.io](https://andrew-zyf.github.io)
 - 🐦 [X (Twitter)](https://x.com/andrew_zyf)
 - 🐙 [GitHub Profile](https://github.com/andrew-zyf)
+- 💬 **微信公众号:** AI & FPGA（查看方法：微信搜一搜）
 
 ## 🛠️ About This Repository
 
