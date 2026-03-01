@@ -6,309 +6,513 @@
     <title>Andrew Zyf - Sr. FPGA System Architect & Account Manager @ Comtech</title>
     <style>
         :root {
-            --bg-gradient: radial-gradient(circle at top right, #1a2035, #0d1117);
-            --card-bg: rgba(22, 27, 34, 0.6);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --text-main: #f0f6fc;
-            --text-muted: #8b949e;
-            --text-zh: #7a828e; /* 中文专属稍微变暗的颜色 */
-            --accent-color: #58a6ff;
-            --amd-color: #fca5a5; 
-            --nv-color: #86efac;  
+            --bg-primary: #0a0e1a;
+            --bg-card: rgba(15, 20, 35, 0.8);
+            --border-card: rgba(255, 255, 255, 0.06);
+            --border-glow: rgba(88, 166, 255, 0.3);
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-zh: #6e7681;
+            --accent: #58a6ff;
+            --amd-red: #ff6b6b;
+            --amd-red-border: rgba(255, 107, 107, 0.2);
+            --nv-green: #76d68e;
+            --nv-green-border: rgba(118, 214, 142, 0.15);
+            --radius: 20px;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: var(--bg-gradient);
-            color: var(--text-main);
-            margin: 0;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
-            padding: 20px;
+            padding: 32px;
+            overflow-x: hidden;
         }
 
-        .profile-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 680px; /* 稍微加宽以容纳双语内容 */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(88, 166, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 107, 107, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* === Layout === */
+        .layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 16px;
+            max-width: 960px;
             width: 100%;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            align-items: start;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .avatar-container {
+        /* === Card base === */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius);
+            padding: 32px;
             position: relative;
-            display: inline-block;
-            margin-bottom: 20px;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99),
+                        border-color 0.3s ease,
+                        box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .card:hover {
+            border-color: var(--border-glow);
+            box-shadow: 0 8px 32px rgba(88, 166, 255, 0.08);
+        }
+
+        .card .glow {
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .card > *:not(.glow) {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* === Profile Card (unified left) === */
+        .profile-card {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .avatar {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            border: 3px solid var(--card-border);
-            padding: 4px;
+            border: 3px solid rgba(88, 166, 255, 0.3);
+            padding: 3px;
             background: linear-gradient(135deg, #1f6feb, #b392f0);
-            transition: transform 0.4s ease;
+            margin-bottom: 20px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
         .profile-card:hover .avatar {
-            transform: scale(1.05) rotate(2deg);
+            transform: scale(1.05);
+            box-shadow: 0 0 24px rgba(88, 166, 255, 0.3);
         }
 
-        h1 {
-            margin: 0 0 8px 0;
-            font-size: 2.2rem;
+        .name {
+            font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: -0.5px;
+            margin-bottom: 8px;
         }
 
-        .title {
-            color: var(--accent-color);
-            font-size: 1.1rem;
+        .title-text {
+            color: var(--accent);
+            font-size: 0.72rem;
             font-weight: 600;
-            margin-bottom: 20px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            line-height: 1.6;
         }
 
-        .bio-container {
-            margin-bottom: 30px;
+        .location {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-top: 6px;
+        }
+
+        .divider {
+            width: 40px;
+            height: 1px;
+            background: var(--border-card);
+            margin: 20px 0;
         }
 
         .bio-en {
-            color: var(--text-main);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin: 0 0 10px 0;
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            line-height: 1.7;
+            margin-bottom: 8px;
         }
 
         .bio-zh {
             color: var(--text-zh);
-            font-size: 0.85rem;
-            line-height: 1.6;
-            margin: 0;
-        }
-
-        /* 标签区域分组样式 */
-        .skills-container {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-
-        .section-header {
-            border-bottom: 1px solid var(--card-border);
-            padding-bottom: 8px;
-            margin-bottom: 12px;
-            display: inline-block;
-        }
-
-        .section-label-en {
-            font-size: 0.9rem;
-            color: #c9d1d9;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
-            display: block;
-        }
-        
-        .section-label-zh {
-            font-size: 0.75rem;
-            color: var(--text-zh);
-            font-weight: 400;
-            margin-top: 4px;
-            display: block;
-        }
-
-        .sub-label-container {
-            margin-bottom: 10px;
-        }
-
-        .sub-label-en {
             font-size: 0.8rem;
-            color: var(--text-main);
-            font-weight: 600;
+            line-height: 1.7;
         }
 
-        .sub-label-zh {
-            font-size: 0.75rem;
-            color: var(--text-zh);
-            font-weight: 400;
-            margin-left: 6px;
-        }
-
-        .product-group {
+        .social-links {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
+            gap: 12px;
+            margin-top: 20px;
         }
 
-        /* 默认技能标签 */
-        .skill-tag {
-            background: rgba(88, 166, 255, 0.1);
-            color: var(--accent-color);
-            border: 1px solid rgba(88, 166, 255, 0.2);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.2s;
-            cursor: default;
-        }
-        .skill-tag:hover {
-            background: var(--accent-color);
-            color: #0d1117;
-        }
-
-        /* 核心主营产品标签 (AMD) */
-        .skill-tag.core {
-            background: rgba(252, 165, 165, 0.1);
-            color: var(--amd-color);
-            border-color: rgba(252, 165, 165, 0.3);
-            font-weight: 600;
-        }
-        .skill-tag.core:hover {
-            background: var(--amd-color);
-            color: #0d1117;
-        }
-
-        /* 辅助补充产品标签 (NVIDIA) */
-        .skill-tag.comp {
-            background: rgba(134, 239, 172, 0.05);
-            color: var(--nv-color);
-            border-color: rgba(134, 239, 172, 0.2);
-        }
-        .skill-tag.comp:hover {
-            background: var(--nv-color);
-            color: #0d1117;
-        }
-
-        /* 社交链接按钮 */
-        .links {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-        }
-
-        .btn {
+        .social-btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 44px;
-            height: 44px;
-            background: transparent;
-            color: var(--text-main);
-            border: 1px solid var(--card-border);
-            border-radius: 50%;
-            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            color: var(--text-secondary);
             text-decoration: none;
+            transition: all 0.3s ease;
         }
 
-        .btn:hover {
-            background: var(--text-main);
-            color: #0d1117;
+        .social-btn:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
             transform: translateY(-3px);
-            box-shadow: 0 8px 16px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 6px 20px rgba(88, 166, 255, 0.25);
         }
 
-        .btn svg {
-            width: 20px;
-            height: 20px;
+        .social-btn svg {
+            width: 18px;
+            height: 18px;
             fill: currentColor;
+        }
+
+        /* === Right Bento === */
+        .bento {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .expertise-card {
+            grid-column: 1 / -1;
+        }
+
+        .section-title {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .section-title-zh {
+            font-size: 0.68rem;
+            color: var(--text-zh);
+            margin-bottom: 16px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: rgba(88, 166, 255, 0.08);
+            color: var(--accent);
+            border: 1px solid rgba(88, 166, 255, 0.15);
+            transition: all 0.2s ease;
+        }
+
+        .tag:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        /* Product cards — equal height */
+        .product-row {
+            display: contents;
+        }
+
+        .amd-card, .nv-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .amd-card {
+            border-color: var(--amd-red-border);
+        }
+
+        .amd-card:hover {
+            border-color: rgba(255, 107, 107, 0.4);
+            box-shadow: 0 8px 32px rgba(255, 107, 107, 0.08);
+        }
+
+        .nv-card {
+            border-color: var(--nv-green-border);
+        }
+
+        .nv-card:hover {
+            border-color: rgba(118, 214, 142, 0.35);
+            box-shadow: 0 8px 32px rgba(118, 214, 142, 0.06);
+        }
+
+        .vendor-logo {
+            margin-bottom: 6px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+        }
+
+        .amd-card .vendor-logo { color: var(--amd-red); }
+        .nv-card .vendor-logo { color: var(--nv-green); }
+
+        .vendor-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            opacity: 0.7;
+            margin-bottom: 16px;
+        }
+
+        .amd-card .vendor-label { color: var(--amd-red); }
+        .nv-card .vendor-label { color: var(--nv-green); }
+
+        .product-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .product-list li {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .product-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .amd-card .product-list li::before {
+            background: var(--amd-red);
+            box-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+        }
+
+        .nv-card .product-list li::before {
+            background: var(--nv-green);
+            box-shadow: 0 0 8px rgba(118, 214, 142, 0.4);
+        }
+
+        /* Tooltip bubble */
+        .wechat-tooltip {
+            position: absolute;
+            bottom: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: rgba(20, 28, 50, 0.95);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+            padding: 12px 16px;
+            white-space: nowrap;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            z-index: 10;
+        }
+
+        .wechat-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--border-glow);
+        }
+
+        .wechat-tooltip.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+            pointer-events: auto;
+        }
+
+        .wechat-tooltip .tip-title {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .wechat-tooltip .tip-desc {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+
+        /* === Animations === */
+        .card {
+            opacity: 0;
+            transform: translateY(24px);
+            animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .profile-card { animation-delay: 0.05s; }
+        .bento .card:nth-child(1) { animation-delay: 0.12s; }
+        .bento .card:nth-child(2) { animation-delay: 0.2s; }
+        .bento .card:nth-child(3) { animation-delay: 0.28s; }
+
+        @keyframes cardIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === Responsive === */
+        @media (max-width: 768px) {
+            body { padding: 16px; }
+            .layout {
+                grid-template-columns: 1fr;
+                max-width: 480px;
+            }
+            .bento { grid-template-columns: 1fr; }
+            .profile-card { padding: 28px 24px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="profile-card">
-        <div class="avatar-container">
+    <div class="layout">
+        <!-- Left: Unified Profile -->
+        <div class="card profile-card">
+            <div class="glow"></div>
             <img src="https://github.com/andrew-zyf.png" alt="Andrew Zyf" class="avatar">
-        </div>
-        
-        <h1>Andrew Zyf</h1>
-        <div class="title">Sr. FPGA System Architect & Account Manager @ Comtech</div>
-        
-        <div class="bio-container">
-            <p class="bio-en">
-                Based in Shenzhen. I work at the intersection of semiconductors, system architecture, and real-world applications. My primary focus is driving solutions within the AMD adaptive computing ecosystem, while providing complementary NVIDIA networking and edge products to help customers build complete system architectures from concept to commercial deployment.
-            </p>
-            <p class="bio-zh">
-                坐标深圳。我的工作致力于将半导体技术、系统架构与真实应用场景相融合。我专注于提供基于 AMD 生态的核心计算解决方案，同时辅以 NVIDIA 网络与边缘计算产品，为客户提供从顶层架构设计到商业供货的端到端支持。
-            </p>
-        </div>
+            <div class="name">Andrew Zyf</div>
+            <div class="title-text">Sr. FPGA System Architect<br>Account Manager @ Comtech</div>
+            <div class="location">📍 Shenzhen, China</div>
 
-        <div class="skills-container">
-            <div>
-                <div class="section-header">
-                    <span class="section-label-en">🛠️ Technical Expertise</span>
-                    <span class="section-label-zh">核心架构能力</span>
-                </div>
-                <div class="product-group">
-                    <span class="skill-tag">System Architecture</span>
-                    <span class="skill-tag">AI Inference & Vision</span>
-                    <span class="skill-tag">Multimodal Edge AI</span>
-                    <span class="skill-tag">HW/SW Co-design</span>
-                </div>
-            </div>
+            <div class="divider"></div>
 
-            <div>
-                <div class="section-header">
-                    <span class="section-label-en">💼 Products I Sell & Support</span>
-                    <span class="section-label-zh">销售产品矩阵</span>
-                </div>
-                
-                <div class="sub-label-container">
-                    <span class="sub-label-en">🔴 Core Portfolio</span>
-                    <span class="sub-label-zh">(核心主推业务)</span>
-                </div>
-                <div class="product-group" style="margin-bottom: 16px;">
-                    <span class="skill-tag core">AMD FPGA / Zynq / Versal / Embedded x86</span>
-                </div>
+            <p class="bio-en">Bridging semiconductors, system architecture, and real-world applications — from concept to commercial deployment.</p>
+            <p class="bio-zh">融合半导体技术与系统架构，从顶层设计到商业落地的端到端支持。</p>
 
-                <div class="sub-label-container">
-                    <span class="sub-label-en">🟢 Complementary Solutions</span>
-                    <span class="sub-label-zh">(生态补充方案)</span>
-                </div>
-                <div class="product-group">
-                    <span class="skill-tag comp">NVIDIA Networking / RTX PRO / Jetson Embedded</span>
-                </div>
+            <div class="social-links" style="position: relative;">
+                <a href="https://github.com/andrew-zyf" target="_blank" rel="noopener noreferrer" class="social-btn" title="GitHub">
+                    <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                </a>
+                <a href="https://x.com/andrew_zyf" target="_blank" rel="noopener noreferrer" class="social-btn" title="X (Twitter)">
+                    <svg viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg>
+                </a>
+                <span style="position: relative;">
+                    <a href="javascript:void(0)" class="social-btn wechat-trigger" title="微信公众号: AI & FPGA" style="cursor: pointer;">
+                        <svg viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 01.598.082l1.584.926a.272.272 0 00.14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 01-.023-.156.49.49 0 01.201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-2.036 2.84c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.983.97-.983zm4.844 0c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.983.969-.983z"></path></svg>
+                    </a>
+                    <div class="wechat-tooltip" id="wechatTip">
+                        <div class="tip-title">微信公众号: AI & FPGA</div>
+                        <div class="tip-desc">微信 → 搜一搜 → 输入「AI & FPGA」</div>
+                    </div>
+                </span>
             </div>
         </div>
 
-        <div class="links">
-            <a href="https://github.com/andrew-zyf" target="_blank" rel="noopener noreferrer" class="btn" title="GitHub">
-                <svg viewBox="0 0 16 16">
-                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
-                </svg>
-            </a>
-            <a href="https://x.com/andrew_zyf" target="_blank" rel="noopener noreferrer" class="btn" title="X (Twitter)">
-                <svg viewBox="0 0 24 24">
-                    <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path>
-                </svg>
-            </a>
-            <a href="javascript:void(0)" onclick="alert('微信公众号: AI & FPGA\n\n打开微信 → 搜一搜 → 输入「AI & FPGA」')" class="btn" title="微信公众号: AI & FPGA" style="cursor: pointer;">
-                <svg viewBox="0 0 24 24">
-                    <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178A1.17 1.17 0 014.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 01-1.162 1.178 1.17 1.17 0 01-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 01.598.082l1.584.926a.272.272 0 00.14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 01-.023-.156.49.49 0 01.201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-2.036 2.84c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.983.97-.983zm4.844 0c.535 0 .969.44.969.982a.976.976 0 01-.969.983.976.976 0 01-.969-.983c0-.542.434-.983.969-.983z"></path>
-                </svg>
-            </a>
+        <!-- Right: Bento Grid -->
+        <div class="bento">
+            <div class="card expertise-card">
+                <div class="glow"></div>
+                <div class="section-title">🛠️ Technical Expertise</div>
+                <div class="section-title-zh">核心架构能力</div>
+                <div class="tags">
+                    <span class="tag">System Architecture</span>
+                    <span class="tag">AI Inference & Vision</span>
+                    <span class="tag">Multimodal Edge AI</span>
+                    <span class="tag">HW/SW Co-design</span>
+                    <span class="tag">High-Speed Networking</span>
+                    <span class="tag">Tech Evaluation</span>
+                </div>
+            </div>
+
+            <div class="card amd-card">
+                <div class="glow"></div>
+                <div class="vendor-logo">AMD</div>
+                <div class="vendor-label">Primary Line · 核心销售产品</div>
+                <ul class="product-list">
+                    <li>FPGA</li>
+                    <li>Zynq SoC</li>
+                    <li>Versal ACAP</li>
+                    <li>Embedded x86</li>
+                </ul>
+            </div>
+
+            <div class="card nv-card">
+                <div class="glow"></div>
+                <div class="vendor-logo">NVIDIA</div>
+                <div class="vendor-label">Extended Line · 补充销售</div>
+                <ul class="product-list">
+                    <li>Networking (Mellanox)</li>
+                    <li>RTX PRO</li>
+                    <li>Jetson Embedded</li>
+                </ul>
+            </div>
         </div>
     </div>
+
+    <script>
+        // WeChat tooltip toggle
+        const wechatBtn = document.querySelector('.wechat-trigger');
+        const wechatTip = document.getElementById('wechatTip');
+        wechatBtn.addEventListener('click', e => {
+            e.preventDefault();
+            wechatTip.classList.toggle('show');
+        });
+        document.addEventListener('click', e => {
+            if (!wechatBtn.contains(e.target) && !wechatTip.contains(e.target)) {
+                wechatTip.classList.remove('show');
+            }
+        });
+
+        // 3D tilt + glow
+        document.querySelectorAll('.card').forEach(card => {
+            const glow = card.querySelector('.glow');
+
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const cx = rect.width / 2;
+                const cy = rect.height / 2;
+
+                const rotateX = ((y - cy) / cy) * -5;
+                const rotateY = ((x - cx) / cx) * 5;
+
+                card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(4px)`;
+
+                if (glow) {
+                    glow.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(88, 166, 255, 0.1) 0%, transparent 60%)`;
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateZ(0)';
+                if (glow) glow.style.background = 'transparent';
+            });
+        });
+    </script>
 
 </body>
 </html>
