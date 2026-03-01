@@ -12,9 +12,8 @@
             --text-main: #f0f6fc;
             --text-muted: #8b949e;
             --accent-color: #58a6ff;
-            --tag-bg: rgba(88, 166, 255, 0.1);
-            --tag-border: rgba(88, 166, 255, 0.2);
-            --sales-color: #4ade80; 
+            --amd-color: #fca5a5; /* 突出核心业务的颜色 */
+            --nv-color: #86efac;  /* 辅助补充业务的颜色 */
         }
 
         body {
@@ -37,7 +36,7 @@
             border: 1px solid var(--card-border);
             border-radius: 24px;
             padding: 40px;
-            max-width: 620px; 
+            max-width: 650px; 
             width: 100%;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
@@ -87,26 +86,36 @@
 
         .bio {
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 0.95rem;
             line-height: 1.6;
-            margin-bottom: 28px;
+            margin-bottom: 30px;
         }
 
         /* 标签区域分组样式 */
         .skills-container {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 24px;
             margin-bottom: 32px;
         }
 
         .section-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            font-weight: 600;
+            font-weight: 700;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 8px;
+            display: inline-block;
+        }
+
+        .sub-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
         .product-group {
@@ -116,33 +125,43 @@
             gap: 10px;
         }
 
+        /* 默认技能标签 */
         .skill-tag {
-            background: var(--tag-bg);
+            background: rgba(88, 166, 255, 0.1);
             color: var(--accent-color);
-            border: 1px solid var(--tag-border);
-            padding: 8px 16px;
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
             transition: all 0.2s;
             cursor: default;
-            display: inline-block;
         }
-
-        .skill-tag.product {
-            background: rgba(74, 222, 128, 0.08);
-            color: var(--sales-color);
-            border-color: rgba(74, 222, 128, 0.25);
-            font-weight: 600;
-        }
-
         .skill-tag:hover {
             background: var(--accent-color);
             color: #0d1117;
         }
 
-        .skill-tag.product:hover {
-            background: var(--sales-color);
+        /* 核心主营产品标签 (AMD) */
+        .skill-tag.core {
+            background: rgba(252, 165, 165, 0.1);
+            color: var(--amd-color);
+            border-color: rgba(252, 165, 165, 0.3);
+            font-weight: 600;
+        }
+        .skill-tag.core:hover {
+            background: var(--amd-color);
+            color: #0d1117;
+        }
+
+        /* 辅助补充产品标签 (NVIDIA) */
+        .skill-tag.comp {
+            background: rgba(134, 239, 172, 0.05);
+            color: var(--nv-color);
+            border-color: rgba(134, 239, 172, 0.2);
+        }
+        .skill-tag.comp:hover {
+            background: var(--nv-color);
             color: #0d1117;
         }
 
@@ -151,7 +170,6 @@
             display: flex;
             justify-content: center;
             gap: 16px;
-            margin-top: 10px;
         }
 
         .btn {
@@ -193,7 +211,7 @@
         <div class="title">Sr. FPGA System Architect & Comtech Sales</div>
         
         <p class="bio">
-            Based in Shenzhen. I work at the intersection of semiconductors, system architecture, and real-world applications, helping customers choose and design with the right compute platforms.
+            Based in Shenzhen. I work at the intersection of semiconductors, system architecture, and real-world applications. My primary focus is driving solutions within the AMD adaptive computing ecosystem, while providing complementary NVIDIA networking and edge products to help customers build complete system architectures.
         </p>
 
         <div class="skills-container">
@@ -209,9 +227,15 @@
 
             <div>
                 <div class="section-label">💼 Products I Sell</div>
+                
+                <div class="sub-label">🔴 Core Portfolio (Primary Focus)</div>
+                <div class="product-group" style="margin-bottom: 12px;">
+                    <span class="skill-tag core">AMD FPGA / Zynq / Versal / Embedded x86</span>
+                </div>
+
+                <div class="sub-label">🟢 Complementary Solutions</div>
                 <div class="product-group">
-                    <span class="skill-tag product">AMD FPGA / Zynq / Versal / Embedded x86</span>
-                    <span class="skill-tag product">NVIDIA Networking / RTX PRO / Jetson Embedded</span>
+                    <span class="skill-tag comp">NVIDIA Networking / RTX PRO / Jetson Embedded</span>
                 </div>
             </div>
         </div>
@@ -222,7 +246,6 @@
                     <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
                 </svg>
             </a>
-
             <a href="https://x.com/andrew_zyf" target="_blank" rel="noopener noreferrer" class="btn" title="X (Twitter)">
                 <svg viewBox="0 0 24 24">
                     <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path>
