@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andrew Zyf - Sr. FPGA System Architect</title>
+    <title>Andrew Zyf - Sr. FPGA System Architect & Comtech Sales</title>
     <style>
         :root {
             --bg-gradient: radial-gradient(circle at top right, #1a2035, #0d1117);
@@ -14,6 +14,7 @@
             --accent-color: #58a6ff;
             --tag-bg: rgba(88, 166, 255, 0.1);
             --tag-border: rgba(88, 166, 255, 0.2);
+            --sales-color: #4ade80; 
         }
 
         body {
@@ -36,7 +37,7 @@
             border: 1px solid var(--card-border);
             border-radius: 24px;
             padding: 40px;
-            max-width: 550px; /* 稍微加宽了一点以适应新的内容 */
+            max-width: 600px; /* 稍微加宽以适应更长的产品标签 */
             width: 100%;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
@@ -91,13 +92,19 @@
             margin-bottom: 24px;
         }
 
-        /* 技能标签区域 */
         .skills {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .product-group {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
-            margin-bottom: 32px;
         }
 
         .skill-tag {
@@ -109,27 +116,27 @@
             font-size: 0.85rem;
             font-weight: 500;
             transition: all 0.2s;
-            text-decoration: none; 
-            cursor: pointer;       
-            display: inline-block; 
+            cursor: default;
+            display: inline-block;
+        }
+
+        .skill-tag.product {
+            background: rgba(74, 222, 128, 0.1);
+            color: var(--sales-color);
+            border-color: rgba(74, 222, 128, 0.2);
+            font-weight: 600;
         }
 
         .skill-tag:hover {
             background: var(--accent-color);
-            color: #0d1117; 
+            color: #0d1117;
         }
 
-        /* 仅作为展示的标签（不可点击） */
-        span.skill-tag {
-            cursor: default;
-        }
-        
-        span.skill-tag:hover {
-            background: var(--tag-bg);
-            color: var(--accent-color);
+        .skill-tag.product:hover {
+            background: var(--sales-color);
+            color: #0d1117;
         }
 
-        /* 社交链接按钮 */
         .links {
             display: flex;
             justify-content: center;
@@ -172,18 +179,22 @@
         </div>
         
         <h1>Andrew Zyf</h1>
-        <div class="title">Sr. FPGA System Architect</div>
+        <div class="title">Sr. FPGA System Architect & Comtech Sales</div>
         
         <p class="bio">
-            I work at the intersection of semiconductors, system architecture, and real-world applications, helping customers choose and design with the right compute platforms.
+            Based in Shenzhen, I am a Sr. FPGA System Architect & Comtech Sales. I work at the intersection of semiconductors, system architecture, and real-world applications, helping customers choose and design with the right compute platforms.
         </p>
 
         <div class="skills">
-            <span class="skill-tag">System Architecture</span>
-            <span class="skill-tag">AI Inference & Vision</span>
-            <span class="skill-tag">Multimodal Edge AI</span>
-            <a href="https://www.amd.com/en/products/adaptive-socs-and-fpgas.html" target="_blank" rel="noopener noreferrer" class="skill-tag">AMD FPGA / SoC</a>
-            <a href="https://developer.nvidia.com/embedded-computing" target="_blank" rel="noopener noreferrer" class="skill-tag">NVIDIA RTX / Jetson</a>
+            <div class="product-group">
+                <span class="skill-tag product">AMD FPGA/Zynq/Versal/Embedded x86</span>
+                <span class="skill-tag product">NVIDIA Networking / RTX PRO / Jetson Embedded</span>
+            </div>
+            <div class="product-group">
+                <span class="skill-tag">System Architecture</span>
+                <span class="skill-tag">AI Inference & Vision</span>
+                <span class="skill-tag">Multimodal Edge AI</span>
+            </div>
         </div>
 
         <div class="links">
