@@ -3,513 +3,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andrew Zyf - Sr. FPGA System Architect</title>
+    <title>Andrew Zyf — Senior FPGA System Architect</title>
+    <meta name="description" content="Senior FPGA System Architect based in Shenzhen. FPGA + SoC HW/SW Co-design. Exploring Physical AI on Edge.">
     <style>
         :root {
-            --bg-primary: #0a0e1a;
-            --bg-card: rgba(15, 20, 35, 0.8);
-            --border-card: rgba(255, 255, 255, 0.06);
-            --border-glow: rgba(88, 166, 255, 0.3);
-            --text-primary: #e6edf3;
-            --text-secondary: #8b949e;
-            --text-zh: #6e7681;
+            --bg: #0b0f1a;
+            --bg-card: rgba(16, 22, 40, 0.85);
+            --bg-nav: rgba(11, 15, 26, 0.92);
+            --border: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(88, 166, 255, 0.35);
+            --text: #e6edf3;
+            --text-dim: #8b949e;
+            --text-muted: #6e7681;
             --accent: #58a6ff;
-            --amd-red: #ff6b6b;
-            --amd-red-border: rgba(255, 107, 107, 0.2);
-            --nv-green: #76d68e;
-            --nv-green-border: rgba(118, 214, 142, 0.15);
-            --radius: 20px;
+            --accent-glow: rgba(88, 166, 255, 0.15);
+            --red: #ff6b6b;
+            --green: #76d68e;
+            --purple: #b392f0;
+            --radius: 16px;
+            --max-w: 1080px;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        html { scroll-behavior: smooth; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 32px;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(88, 166, 255, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 107, 107, 0.02) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        /* === Layout === */
-        .layout {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            grid-template-rows: 1fr auto;
-            gap: 16px;
-            max-width: 960px;
-            width: 100%;
-            align-items: stretch;
-        }
-
-        /* === Card base === */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            border-radius: var(--radius);
-            padding: 32px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99),
-                        border-color 0.3s ease,
-                        box-shadow 0.3s ease;
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
-
-        .card:hover {
-            border-color: var(--border-glow);
-            box-shadow: 0 8px 32px rgba(88, 166, 255, 0.08);
-        }
-
-        .card .glow {
-            position: absolute;
-            inset: 0;
-            border-radius: var(--radius);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .card > *:not(.glow) {
-            position: relative;
-            z-index: 2;
-        }
-
-        /* === Profile Card === */
-        .profile-card {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 3px solid rgba(88, 166, 255, 0.3);
-            padding: 3px;
-            background: linear-gradient(135deg, #1f6feb, #b392f0);
-            margin-bottom: 20px;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
-
-        .profile-card:hover .avatar {
-            transform: scale(1.05);
-            box-shadow: 0 0 24px rgba(88, 166, 255, 0.3);
-        }
-
-        .name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 8px;
-        }
-
-        .title-text {
-            color: var(--accent);
-            font-size: 0.72rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
-        .location {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            margin-top: 6px;
+        /* Nav */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: var(--bg-nav); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border); padding: 0 24px;
         }
-
-        .divider {
-            width: 40px;
-            height: 1px;
-            background: var(--border-card);
-            margin: 20px 0;
+        .nav-inner {
+            max-width: var(--max-w); margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; height: 56px;
         }
-
-        .bio-en {
-            color: var(--text-secondary);
-            font-size: 0.88rem;
-            line-height: 1.7;
-            margin-bottom: 8px;
+        .nav-brand { font-weight: 700; font-size: 0.95rem; color: var(--text); }
+        .nav-links { display: flex; gap: 28px; list-style: none; }
+        .nav-links a {
+            color: var(--text-dim); font-size: 0.82rem; font-weight: 500;
+            letter-spacing: 0.5px; transition: color 0.2s;
         }
+        .nav-links a:hover { color: var(--text); text-decoration: none; }
 
-        .bio-zh {
-            color: var(--text-zh);
-            font-size: 0.8rem;
-            line-height: 1.7;
+        /* Sections */
+        section { max-width: var(--max-w); margin: 0 auto; padding: 100px 24px; }
+        .section-label {
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2.5px;
+            color: var(--accent); font-weight: 600; margin-bottom: 8px;
         }
-
-        /* === Social Card === */
-        .social-card {
-            grid-column: 1;
-            grid-row: 2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 14px;
-            padding: 20px 32px;
-            overflow: visible;
+        .section-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 12px; }
+        .section-title-zh { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 32px; }
+        /* Hero */
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            padding-top: 56px;
         }
-
+        .hero-avatar {
+            width: 120px; height: 120px; border-radius: 50%;
+            border: 3px solid rgba(88, 166, 255, 0.3);
+            margin-bottom: 28px; transition: transform 0.4s, box-shadow 0.4s;
+        }
+        .hero-avatar:hover {
+            transform: scale(1.05); box-shadow: 0 0 32px rgba(88, 166, 255, 0.3);
+        }
+        .hero h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; }
+        .hero-title {
+            color: var(--accent); font-size: 0.85rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px;
+        }
+        .hero-tagline {
+            color: var(--text-dim); font-size: 1rem; max-width: 560px; margin-bottom: 8px;
+        }
+        .hero-tagline-zh {
+            color: var(--text-muted); font-size: 0.88rem; max-width: 560px; margin-bottom: 24px;
+        }
+        .hero-location {
+            color: var(--text-muted); font-size: 0.82rem; margin-bottom: 28px;
+        }
+        .hero-location svg { width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px; fill: var(--text-muted); }
+        .hero-social { display: flex; gap: 12px; }
         .social-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-card);
-            border-radius: 12px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
+            width: 42px; height: 42px; border-radius: 12px;
+            background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+            color: var(--text-dim); transition: all 0.3s;
         }
-
         .social-btn:hover {
-            background: var(--accent);
-            color: var(--bg-primary);
-            border-color: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(88, 166, 255, 0.25);
-        }
-
-        .social-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
-
-        /* Social tooltip wrapper */
-        .social-wrap {
-            position: relative;
-        }
-
-        .social-tooltip {
-            position: absolute;
-            bottom: calc(100% + 12px);
-            left: 50%;
-            transform: translateX(-50%) scale(0.9);
-            background: rgba(20, 28, 50, 0.95);
-            border: 1px solid var(--border-glow);
-            border-radius: 12px;
-            padding: 12px 16px;
-            white-space: nowrap;
-            font-size: 0.8rem;
-            color: var(--text-primary);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.25s ease, transform 0.25s ease;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-            z-index: 10;
-        }
-
-        .social-tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 6px solid transparent;
-            border-top-color: var(--border-glow);
-        }
-
-        .social-tooltip.show {
-            opacity: 1;
-            transform: translateX(-50%) scale(1);
-            pointer-events: auto;
-        }
-
-        .social-tooltip .tip-title {
-            font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 4px;
-        }
-
-        .social-tooltip .tip-link {
-            color: var(--accent);
+            background: var(--accent); color: var(--bg); border-color: var(--accent);
+            transform: translateY(-2px); box-shadow: 0 6px 20px rgba(88,166,255,0.25);
             text-decoration: none;
-            font-size: 0.75rem;
+        }
+        .social-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+        /* About */
+        .about-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;
+        }
+        .about-text { color: var(--text-dim); font-size: 0.95rem; line-height: 1.8; }
+
+        /* Skills */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+        .skill-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 24px; transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .skill-card:hover { border-color: var(--border-hover); box-shadow: 0 4px 24px var(--accent-glow); }
+        .skill-card h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .skill-tag {
+            padding: 4px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 500;
+            background: rgba(88,166,255,0.08); color: var(--accent); border: 1px solid rgba(88,166,255,0.12);
+        }
+        .skill-card.red .skill-tag { background: rgba(255,107,107,0.08); color: var(--red); border-color: rgba(255,107,107,0.15); }
+        .skill-card.green .skill-tag { background: rgba(118,214,142,0.08); color: var(--green); border-color: rgba(118,214,142,0.12); }
+        .skill-card.purple .skill-tag { background: rgba(179,146,240,0.08); color: var(--purple); border-color: rgba(179,146,240,0.12); }
+
+        /* Projects */
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+        .project-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 24px; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            display: flex; flex-direction: column;
+        }
+        .project-card:hover {
+            border-color: var(--border-hover); transform: translateY(-4px);
+            box-shadow: 0 8px 32px var(--accent-glow); text-decoration: none;
+        }
+        .project-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+        .project-card p { font-size: 0.82rem; color: var(--text-dim); flex: 1; margin-bottom: 12px; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .project-tag {
+            padding: 3px 10px; border-radius: 6px; font-size: 0.7rem;
+            background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid var(--border);
         }
 
-        .social-tooltip .tip-link:hover {
-            text-decoration: underline;
+        /* Footer */
+        footer {
+            max-width: var(--max-w); margin: 0 auto; padding: 40px 24px 60px;
+            text-align: center; color: var(--text-muted); font-size: 0.78rem;
+            border-top: 1px solid var(--border);
         }
+        footer .footer-social { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
 
-        .social-tooltip .tip-desc {
-            color: var(--text-secondary);
-            font-size: 0.75rem;
+        /* WeChat Modal */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; z-index: 200;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+            justify-content: center; align-items: center;
         }
-
-        /* === Right Bento === */
-        .bento {
-            grid-column: 2;
-            grid-row: 1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
+        .modal-overlay.show { display: flex; }
+        .modal-content {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 32px; text-align: center; max-width: 320px;
         }
-
-        .expertise-card {
-            grid-column: 1 / -1;
+        .modal-content img { width: 200px; border-radius: 8px; margin: 16px 0; }
+        .modal-content h3 { font-size: 0.9rem; margin-bottom: 4px; }
+        .modal-content p { font-size: 0.78rem; color: var(--text-dim); }
+        .modal-close {
+            margin-top: 16px; padding: 6px 20px; border-radius: 8px;
+            background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+            color: var(--text-dim); cursor: pointer; font-size: 0.8rem;
         }
+        .modal-close:hover { background: rgba(255,255,255,0.1); }
 
-        .section-title {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            margin-bottom: 4px;
+        /* Scroll Animation */
+        .fade-in {
+            opacity: 0; transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-        .section-title-zh {
-            font-size: 0.68rem;
-            color: var(--text-zh);
-            margin-bottom: 16px;
-        }
-
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .tag {
-            padding: 6px 14px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            background: rgba(88, 166, 255, 0.08);
-            color: var(--accent);
-            border: 1px solid rgba(88, 166, 255, 0.15);
-            transition: all 0.2s ease;
-        }
-
-        .tag:hover {
-            background: var(--accent);
-            color: var(--bg-primary);
-        }
-
-        /* Product cards */
-        .amd-card, .nv-card {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .amd-card { border-color: var(--amd-red-border); }
-        .amd-card:hover {
-            border-color: rgba(255, 107, 107, 0.4);
-            box-shadow: 0 8px 32px rgba(255, 107, 107, 0.08);
-        }
-
-        .nv-card { border-color: var(--nv-green-border); }
-        .nv-card:hover {
-            border-color: rgba(118, 214, 142, 0.35);
-            box-shadow: 0 8px 32px rgba(118, 214, 142, 0.06);
-        }
-
-        .vendor-logo {
-            margin-bottom: 6px;
-            font-size: 1.4rem;
-            font-weight: 800;
-            letter-spacing: 3px;
-        }
-
-        .amd-card .vendor-logo { color: var(--amd-red); }
-        .nv-card .vendor-logo { color: var(--nv-green); }
-
-        .vendor-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            opacity: 0.7;
-            margin-bottom: 16px;
-        }
-
-        .amd-card .vendor-label { color: var(--amd-red); }
-        .nv-card .vendor-label { color: var(--nv-green); }
-
-        .product-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex: 1;
-        }
-
-        .product-list li {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            padding-left: 16px;
-            position: relative;
-        }
-
-        .product-list li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-        }
-
-        .amd-card .product-list li::before {
-            background: var(--amd-red);
-            box-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
-        }
-
-        .nv-card .product-list li::before {
-            background: var(--nv-green);
-            box-shadow: 0 0 8px rgba(118, 214, 142, 0.4);
-        }
-
-        /* === Animations === */
-        .card {
-            opacity: 0;
-            transform: translateY(24px);
-            animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .profile-card { animation-delay: 0.05s; }
-        .bento .card:nth-child(1) { animation-delay: 0.1s; }
-        .bento .card:nth-child(2) { animation-delay: 0.18s; }
-        .bento .card:nth-child(3) { animation-delay: 0.26s; }
-        .social-card { animation-delay: 0.15s; }
-
-        @keyframes cardIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* === Responsive === */
+        /* Responsive */
         @media (max-width: 768px) {
-            body { padding: 16px; }
-            .layout {
-                grid-template-columns: 1fr;
-                max-width: 480px;
-            }
-            .bento { grid-template-columns: 1fr; }
-            .social-card { grid-column: 1; }
-            .profile-card { padding: 28px 24px; }
+            .hero h1 { font-size: 1.8rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 20px; }
+            .nav-links { gap: 16px; }
+            .nav-links a { font-size: 0.75rem; }
+            section { padding: 72px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="layout">
-        <!-- Left: Profile -->
-        <div class="card profile-card">
-            <div class="glow"></div>
-            <img src="https://github.com/andrew-zyf.png" alt="Andrew Zyf" class="avatar">
-            <div class="name">Andrew Zyf</div>
-            <div class="title-text">Sr. FPGA System Architect</div>
-        </div>
+<nav>
+    <div class="nav-inner">
+        <span class="nav-brand">Andrew Zyf</span>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+        </ul>
+    </div>
+</nav>
 
-        <!-- Right: Bento Grid -->
-        <div class="bento">
-            <div class="card expertise-card">
-                <div class="glow"></div>
-                <div class="section-title">🛠️ Technical Expertise</div>
-                <div class="section-title-zh">核心架构能力</div>
-                <div class="tags">
-                    <span class="tag">System Architecture</span>
-                    <span class="tag">AI Inference & Vision</span>
-                    <span class="tag">Multimodal Edge AI</span>
-                    <span class="tag">HW/SW Co-design</span>
-                    <span class="tag">High-Speed Networking</span>
-                    <span class="tag">Tech Evaluation</span>
+<!-- Hero -->
+<section class="hero">
+    <img src="https://github.com/andrew-zyf.png" alt="Andrew Zyf" class="hero-avatar">
+    <h1>Andrew Zyf</h1>
+    <div class="hero-title">Senior FPGA System Architect</div>
+    <div class="hero-tagline">FPGA + SoC HW/SW Co-design · Exploring Physical AI on Edge</div>
+    <div class="hero-tagline-zh">FPGA 与 SoC 软硬件协同设计 · 探索边缘端物理 AI</div>
+    <div class="hero-location">
+        <svg viewBox="0 0 16 16"><path d="M8 0a5.53 5.53 0 0 0-5.5 5.5c0 4.9 5.5 10.5 5.5 10.5s5.5-5.6 5.5-10.5A5.53 5.53 0 0 0 8 0zm0 7.5a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
+        Shenzhen, China
+    </div>
+    <div class="hero-social">
+        <a href="https://github.com/andrew-zyf" target="_blank" rel="noopener" class="social-btn" title="GitHub">
+            <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+        <a href="https://x.com/andrew_zyf" target="_blank" rel="noopener" class="social-btn" title="X (Twitter)">
+            <svg viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+        </a>
+        <button class="social-btn" onclick="document.getElementById('wechatModal').classList.add('show')" title="WeChat 公众号">
+            <svg viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-2.18 2.769c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982z"/></svg>
+        </button>
+    </div>
+</section>
+
+<!-- About -->
+<section id="about">
+    <div class="fade-in">
+        <div class="section-label">About</div>
+        <div class="section-title">Who I Am</div>
+        <div class="section-title-zh">关于我</div>
+        <div class="about-grid">
+            <div class="about-text">
+                A system architect focused on bridging silicon and intelligence at the edge. I design FPGA-based computing platforms for AI inference, high-speed connectivity, and real-time signal processing. My work spans from RTL to embedded software — building systems where hardware and algorithms meet.
+            </div>
+            <div class="about-text">
+                专注于边缘端硅基智能的系统架构师。我设计基于 FPGA 的计算平台，覆盖 AI 推理、高速互联与实时信号处理。工作横跨从 RTL 到嵌入式软件的全栈——在硬件与算法的交汇处构建系统。
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+    <div class="fade-in">
+        <div class="section-label">Expertise</div>
+        <div class="section-title">Technical Stack</div>
+        <div class="section-title-zh">技术栈</div>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>System Architecture / 系统架构</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">FPGA SoC</span>
+                    <span class="skill-tag">HW/SW Co-design</span>
+                    <span class="skill-tag">Platform Integration</span>
+                    <span class="skill-tag">Board-Level Design</span>
+                </div>
+            </div>
+            <div class="skill-card purple">
+                <h3>AI & Vision / AI 与视觉</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Edge AI Inference</span>
+                    <span class="skill-tag">Multimodal AI</span>
+                    <span class="skill-tag">Computer Vision</span>
+                    <span class="skill-tag">Physical AI</span>
+                </div>
+            </div>
+            <div class="skill-card green">
+                <h3>Connectivity / 高速互联</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">High-Speed Networking</span>
+                    <span class="skill-tag">SerDes</span>
+                    <span class="skill-tag">MIPI</span>
+                    <span class="skill-tag">PCIe</span>
+                </div>
+            </div>
+            <div class="skill-card red">
+                <h3>Platforms / 平台</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">AMD Versal</span>
+                    <span class="skill-tag">Zynq UltraScale+</span>
+                    <span class="skill-tag">Kintex</span>
+                    <span class="skill-tag">NVIDIA Jetson</span>
                 </div>
             </div>
         </div>
+    </div>
+</section>
 
-        <!-- Social Links -->
-        <div class="card social-card">
-            <div class="glow"></div>
-            <span class="social-wrap">
-                <a href="javascript:void(0)" class="social-btn social-trigger" data-tip="githubTip" title="GitHub">
-                    <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
-                </a>
-                <div class="social-tooltip" id="githubTip">
-                    <div class="tip-title">GitHub</div>
-                    <a class="tip-link" href="https://github.com/andrew-zyf" target="_blank" rel="noopener noreferrer">github.com/andrew-zyf</a>
+<!-- Projects -->
+<section id="projects">
+    <div class="fade-in">
+        <div class="section-label">Projects</div>
+        <div class="section-title">Open Source</div>
+        <div class="section-title-zh">开源项目</div>
+        <div class="projects-grid">
+            <a href="https://github.com/andrew-zyf/PLFM_RADAR" target="_blank" rel="noopener" class="project-card">
+                <h3>PLFM_RADAR</h3>
+                <p>Platform-level FMCW radar signal processing on FPGA — real-time digital beamforming and target detection.</p>
+                <p style="color:var(--text-muted);font-size:0.78rem;margin-bottom:12px">基于 FPGA 的平台级 FMCW 雷达信号处理，实时数字波束成形与目标检测。</p>
+                <div class="project-tags">
+                    <span class="project-tag">FPGA</span>
+                    <span class="project-tag">Radar</span>
+                    <span class="project-tag">DSP</span>
+                    <span class="project-tag">Verilog</span>
                 </div>
-            </span>
-            <span class="social-wrap">
-                <a href="javascript:void(0)" class="social-btn social-trigger" data-tip="xTip" title="X (Twitter)">
-                    <svg viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg>
-                </a>
-                <div class="social-tooltip" id="xTip">
-                    <div class="tip-title">X (Twitter)</div>
-                    <a class="tip-link" href="https://x.com/andrew_zyf" target="_blank" rel="noopener noreferrer">x.com/andrew_zyf</a>
+            </a>
+            <a href="https://github.com/andrew-zyf/audio-switch" target="_blank" rel="noopener" class="project-card">
+                <h3>audio-switch</h3>
+                <p>macOS audio output device switcher — quick toggle between headphones, speakers, and other outputs.</p>
+                <p style="color:var(--text-muted);font-size:0.78rem;margin-bottom:12px">macOS 音频输出设备快速切换工具。</p>
+                <div class="project-tags">
+                    <span class="project-tag">macOS</span>
+                    <span class="project-tag">Utility</span>
+                    <span class="project-tag">Swift</span>
                 </div>
-            </span>
+            </a>
+            <a href="https://github.com/andrew-zyf/save-webpage-to-pdf" target="_blank" rel="noopener" class="project-card">
+                <h3>save-webpage-to-pdf</h3>
+                <p>Browser extension to save web pages as clean, readable PDFs with preserved formatting.</p>
+                <p style="color:var(--text-muted);font-size:0.78rem;margin-bottom:12px">浏览器扩展，将网页保存为排版整洁的 PDF。</p>
+                <div class="project-tags">
+                    <span class="project-tag">Extension</span>
+                    <span class="project-tag">JavaScript</span>
+                    <span class="project-tag">PDF</span>
+                </div>
+            </a>
         </div>
     </div>
+</section>
 
-    <script>
-        // Social tooltip toggle
-        document.querySelectorAll('.social-trigger').forEach(btn => {
-            const tip = document.getElementById(btn.dataset.tip);
-            btn.addEventListener('click', e => {
-                e.preventDefault();
-                // Close other tooltips
-                document.querySelectorAll('.social-tooltip.show').forEach(t => {
-                    if (t !== tip) t.classList.remove('show');
-                });
-                tip.classList.toggle('show');
-            });
-        });
-        document.addEventListener('click', e => {
-            if (!e.target.closest('.social-wrap')) {
-                document.querySelectorAll('.social-tooltip.show').forEach(t => t.classList.remove('show'));
-            }
-        });
+<!-- Footer -->
+<footer>
+    <div class="footer-social">
+        <a href="https://github.com/andrew-zyf" target="_blank" rel="noopener" class="social-btn" title="GitHub">
+            <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+        <a href="https://x.com/andrew_zyf" target="_blank" rel="noopener" class="social-btn" title="X (Twitter)">
+            <svg viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+        </a>
+    </div>
+    <p>Built with curiosity · Shenzhen, China</p>
+</footer>
 
-        // 3D tilt + glow
-        document.querySelectorAll('.card').forEach(card => {
-            const glow = card.querySelector('.glow');
+<!-- WeChat Modal -->
+<div class="modal-overlay" id="wechatModal" onclick="this.classList.remove('show')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3>WeChat 公众号</h3>
+        <p>AI & FPGA</p>
+        <img src="images/mp-weixin-AI&FPGA.png" alt="WeChat QR Code">
+        <br>
+        <button class="modal-close" onclick="document.getElementById('wechatModal').classList.remove('show')">Close</button>
+    </div>
+</div>
 
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const cx = rect.width / 2;
-                const cy = rect.height / 2;
-
-                const rotateX = ((y - cy) / cy) * -5;
-                const rotateY = ((x - cx) / cx) * 5;
-
-                card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(4px)`;
-
-                if (glow) {
-                    glow.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(88, 166, 255, 0.1) 0%, transparent 60%)`;
-                }
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateZ(0)';
-                if (glow) glow.style.background = 'transparent';
-            });
-        });
-    </script>
+<script>
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
