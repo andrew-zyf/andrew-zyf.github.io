@@ -105,46 +105,30 @@
         .social-btn svg { width: 18px; height: 18px; fill: currentColor; }
 
         /* About */
-        .about-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;
-        }
-        .about-text { color: var(--text-dim); font-size: 0.95rem; line-height: 1.8; }
+        .about-text { color: var(--text-dim); font-size: 1.05rem; line-height: 1.7; }
 
         /* Skills */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
-        .skill-card {
-            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-            padding: 24px; transition: border-color 0.3s, box-shadow 0.3s;
+        .skill-group { margin-bottom: 24px; }
+        .skill-group:last-child { margin-bottom: 0; }
+        .skill-group-header {
+            font-size: 0.82rem; font-weight: 600; color: var(--text-dim);
+            margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
         }
-        .skill-card:hover { border-color: var(--border-hover); box-shadow: 0 4px 24px var(--accent-glow); }
-        .skill-card h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; }
+        .skill-icon { font-size: 1rem; }
         .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
         .skill-tag {
-            padding: 4px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 500;
+            padding: 5px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 500;
             background: rgba(88,166,255,0.08); color: var(--accent); border: 1px solid rgba(88,166,255,0.12);
+            transition: background 0.2s, color 0.2s;
         }
-        .skill-card.red .skill-tag { background: rgba(255,107,107,0.08); color: var(--red); border-color: rgba(255,107,107,0.15); }
-        .skill-card.green .skill-tag { background: rgba(118,214,142,0.08); color: var(--green); border-color: rgba(118,214,142,0.12); }
-        .skill-card.purple .skill-tag { background: rgba(179,146,240,0.08); color: var(--purple); border-color: rgba(179,146,240,0.12); }
+        .skill-tag:hover { background: var(--accent); color: var(--bg); }
+        .skill-tag.tag-purple { background: rgba(179,146,240,0.08); color: #c4a5f7; border-color: rgba(179,146,240,0.15); }
+        .skill-tag.tag-purple:hover { background: #c4a5f7; color: var(--bg); }
+        .skill-tag.tag-green { background: rgba(118,214,142,0.08); color: #7ee89a; border-color: rgba(118,214,142,0.12); }
+        .skill-tag.tag-green:hover { background: #7ee89a; color: var(--bg); }
+        .skill-tag.tag-red { background: rgba(255,107,107,0.08); color: #ff8a8a; border-color: rgba(255,107,107,0.12); }
+        .skill-tag.tag-red:hover { background: #ff8a8a; color: var(--bg); }
 
-        /* Projects */
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-        .project-card {
-            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-            padding: 24px; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-            display: flex; flex-direction: column;
-        }
-        .project-card:hover {
-            border-color: var(--border-hover); transform: translateY(-4px);
-            box-shadow: 0 8px 32px var(--accent-glow); text-decoration: none;
-        }
-        .project-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; color: var(--text); }
-        .project-card p { font-size: 0.82rem; color: var(--text-dim); flex: 1; margin-bottom: 12px; }
-        .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-        .project-tag {
-            padding: 3px 10px; border-radius: 6px; font-size: 0.7rem;
-            background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid var(--border);
-        }
 
         /* Footer */
         footer {
@@ -185,7 +169,6 @@
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 1.8rem; }
-            .about-grid { grid-template-columns: 1fr; gap: 20px; }
             .nav-links { gap: 16px; }
             .nav-links a { font-size: 0.75rem; }
             section { padding: 72px 20px; }
@@ -233,7 +216,7 @@
         <div class="section-label">About</div>
         <div class="section-title">Who I Am</div>
         <div class="about-text" style="max-width:640px">
-                A system architect working at the intersection of FPGA SoC platforms and Physical AI. I design edge computing systems for AI inference, real-time signal processing, and high-speed connectivity — bridging hardware architecture with intelligent algorithms from RTL to embedded software.
+                Designing FPGA SoC systems where Physical AI meets the edge — from RTL to embedded software.
             </div>
     </div>
 </section>
@@ -243,39 +226,37 @@
     <div class="fade-in">
         <div class="section-label">Expertise</div>
         <div class="section-title">Technical Stack</div>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <h3>System Architecture</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">FPGA SoC</span>
-                    <span class="skill-tag">HW/SW Co-design</span>
-                    <span class="skill-tag">Board-Level Design</span>
-                </div>
+        <div class="skill-group">
+            <div class="skill-group-header"><span class="skill-icon">⚙️</span> System Architecture</div>
+            <div class="skill-tags">
+                <span class="skill-tag">FPGA SoC</span>
+                <span class="skill-tag">HW/SW Co-design</span>
+                <span class="skill-tag">Board-Level Design</span>
             </div>
-            <div class="skill-card purple">
-                <h3>AI & Vision</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">Edge AI Inference</span>
-                    <span class="skill-tag">Computer Vision</span>
-                    <span class="skill-tag">Physical AI</span>
-                </div>
+        </div>
+        <div class="skill-group">
+            <div class="skill-group-header"><span class="skill-icon">🧠</span> AI & Vision</div>
+            <div class="skill-tags">
+                <span class="skill-tag tag-purple">Edge AI Inference</span>
+                <span class="skill-tag tag-purple">Computer Vision</span>
+                <span class="skill-tag tag-purple">Physical AI</span>
             </div>
-            <div class="skill-card green">
-                <h3>Connectivity</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">High-Speed Networking</span>
-                    <span class="skill-tag">SerDes</span>
-                    <span class="skill-tag">MIPI</span>
-                    <span class="skill-tag">PCIe</span>
-                </div>
+        </div>
+        <div class="skill-group">
+            <div class="skill-group-header"><span class="skill-icon">🔗</span> Connectivity</div>
+            <div class="skill-tags">
+                <span class="skill-tag tag-green">High-Speed Networking</span>
+                <span class="skill-tag tag-green">SerDes</span>
+                <span class="skill-tag tag-green">MIPI</span>
+                <span class="skill-tag tag-green">PCIe</span>
             </div>
-            <div class="skill-card red">
-                <h3>Platforms</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">AMD Versal AI</span>
-                    <span class="skill-tag">AMD Physical AI</span>
-                    <span class="skill-tag">NVIDIA Embedded Jetson Thor</span>
-                </div>
+        </div>
+        <div class="skill-group">
+            <div class="skill-group-header"><span class="skill-icon">🖥️</span> Platforms</div>
+            <div class="skill-tags">
+                <span class="skill-tag tag-red">AMD Versal AI</span>
+                <span class="skill-tag tag-red">AMD Physical AI</span>
+                <span class="skill-tag tag-red">NVIDIA Embedded Jetson Thor</span>
             </div>
         </div>
     </div>
