@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Andrew Zyf — Senior FPGA System Architect</title>
-    <meta name="description" content="Senior FPGA System Architect based in Shenzhen. FPGA + SoC HW/SW Co-design. Exploring Physical AI on Edge.">
+    <meta name="description" content="Senior FPGA System Architect. Heterogeneous edge compute for Physical AI — AMD Embedded AI, NVIDIA Jetson Thor, FPGA SoC HW/SW Co-design.">
     <style>
         :root {
             --bg: #0b0f1a;
@@ -59,8 +59,7 @@
             font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2.5px;
             color: var(--accent); font-weight: 600; margin-bottom: 8px;
         }
-        .section-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 12px; }
-        .section-title-zh { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 32px; }
+        .section-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 24px; }
         /* Hero */
         .hero {
             min-height: 100vh; display: flex; flex-direction: column;
@@ -105,9 +104,10 @@
         .social-btn svg { width: 18px; height: 18px; fill: currentColor; }
 
         /* About */
-        .about-text { color: var(--text-dim); font-size: 1.05rem; line-height: 1.7; }
+        .about-text { color: var(--text-dim); font-size: 1.05rem; line-height: 1.7; max-width: 680px; margin: 0 auto; }
 
         /* Skills */
+        .skills-content { max-width: 680px; margin: 0 auto; text-align: left; }
         .skill-group { margin-bottom: 24px; }
         .skill-group:last-child { margin-bottom: 0; }
         .skill-group-header {
@@ -192,7 +192,7 @@
     <img src="https://github.com/andrew-zyf.png" alt="Andrew Zyf" class="hero-avatar">
     <h1>Andrew Zyf</h1>
     <div class="hero-title">Senior FPGA System Architect</div>
-    <div class="hero-tagline">FPGA + SoC HW/SW Co-design · Exploring Physical AI on Edge</div>
+    <div class="hero-tagline">Heterogeneous Edge Compute · Physical AI · FPGA SoC HW/SW Co-design</div>
     <div class="hero-location">
         <svg viewBox="0 0 16 16"><path d="M8 0a5.53 5.53 0 0 0-5.5 5.5c0 4.9 5.5 10.5 5.5 10.5s5.5-5.6 5.5-10.5A5.53 5.53 0 0 0 8 0zm0 7.5a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
         Shenzhen, China
@@ -212,52 +212,59 @@
 
 <!-- About -->
 <section id="about">
-    <div class="fade-in">
+    <div class="fade-in" style="text-align:center">
         <div class="section-label">About</div>
         <div class="section-title">Who I Am</div>
-        <div class="about-text" style="max-width:640px">
-                Designing FPGA SoC systems where Physical AI meets the edge — from RTL to embedded software.
-            </div>
+        <div class="about-text">
+            Architecting heterogeneous edge computing systems for Physical AI — combining FPGA adaptive compute, embedded x86 application processing, and GPU inference to bring intelligent autonomy from cloud to edge.
+        </div>
     </div>
 </section>
 
 <!-- Skills -->
 <section id="skills">
-    <div class="fade-in">
+    <div class="fade-in" style="text-align:center">
         <div class="section-label">Expertise</div>
-        <div class="section-title">Technical Stack</div>
-        <div class="skill-group">
-            <div class="skill-group-header"><span class="skill-icon">⚙️</span> System Architecture</div>
-            <div class="skill-tags">
-                <span class="skill-tag">FPGA SoC</span>
-                <span class="skill-tag">HW/SW Co-design</span>
-                <span class="skill-tag">Board-Level Design</span>
+        <div class="section-title">Physical AI Edge Stack</div>
+        <div class="skills-content">
+            <div class="skill-group">
+                <div class="skill-group-header"><span class="skill-icon">🔴</span> AMD Embedded AI</div>
+                <div class="skill-tags">
+                    <span class="skill-tag tag-red">Versal AI Edge Gen 2</span>
+                    <span class="skill-tag tag-red">Ryzen AI Embedded</span>
+                    <span class="skill-tag tag-red">Embedded+ (Ryzen + Versal)</span>
+                    <span class="skill-tag tag-red">Adaptive SoC</span>
+                    <span class="skill-tag tag-red">AI Engine</span>
+                </div>
             </div>
-        </div>
-        <div class="skill-group">
-            <div class="skill-group-header"><span class="skill-icon">🧠</span> AI & Vision</div>
-            <div class="skill-tags">
-                <span class="skill-tag tag-purple">Edge AI Inference</span>
-                <span class="skill-tag tag-purple">Computer Vision</span>
-                <span class="skill-tag tag-purple">Physical AI</span>
+            <div class="skill-group">
+                <div class="skill-group-header"><span class="skill-icon">🟢</span> NVIDIA Embedded AI</div>
+                <div class="skill-tags">
+                    <span class="skill-tag tag-green">Jetson Thor</span>
+                    <span class="skill-tag tag-green">IGX Thor</span>
+                    <span class="skill-tag tag-green">Edge LLM / VLM</span>
+                    <span class="skill-tag tag-green">Isaac Platform</span>
+                </div>
             </div>
-        </div>
-        <div class="skill-group">
-            <div class="skill-group-header"><span class="skill-icon">🔗</span> Connectivity</div>
-            <div class="skill-tags">
-                <span class="skill-tag tag-green">High-Speed Networking</span>
-                <span class="skill-tag tag-green">SerDes</span>
-                <span class="skill-tag tag-green">MIPI</span>
-                <span class="skill-tag tag-green">PCIe</span>
+            <div class="skill-group">
+                <div class="skill-group-header"><span class="skill-icon">🧠</span> Physical AI Domains</div>
+                <div class="skill-tags">
+                    <span class="skill-tag tag-purple">Autonomous Robotics</span>
+                    <span class="skill-tag tag-purple">Sensor Fusion</span>
+                    <span class="skill-tag tag-purple">Real-Time Inference</span>
+                    <span class="skill-tag tag-purple">Computer Vision</span>
+                    <span class="skill-tag tag-purple">Industrial Edge AI</span>
+                </div>
             </div>
-        </div>
-        <div class="skill-group">
-            <div class="skill-group-header"><span class="skill-icon">🖥️</span> Platforms</div>
-            <div class="skill-tags">
-                <span class="skill-tag tag-red">AMD Versal AI</span>
-                <span class="skill-tag tag-red">AMD Physical AI</span>
-                <span class="skill-tag tag-red">AMD Embedded X86</span>
-                <span class="skill-tag tag-red">NVIDIA Embedded Jetson Thor</span>
+            <div class="skill-group">
+                <div class="skill-group-header"><span class="skill-icon">⚙️</span> System Design</div>
+                <div class="skill-tags">
+                    <span class="skill-tag">FPGA SoC Architecture</span>
+                    <span class="skill-tag">HW/SW Co-design</span>
+                    <span class="skill-tag">High-Speed SerDes</span>
+                    <span class="skill-tag">PCIe / MIPI</span>
+                    <span class="skill-tag">RTL to Embedded SW</span>
+                </div>
             </div>
         </div>
     </div>
