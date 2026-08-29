@@ -200,7 +200,6 @@
         <ul class="nav-links">
             <li><a href="#about">About</a></li>
             <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
         </ul>
     </div>
 </nav>
@@ -211,7 +210,6 @@
     <h1>Andrew Zyf</h1>
     <div class="hero-title">Senior FPGA System Architect</div>
     <div class="hero-tagline">FPGA + SoC HW/SW Co-design · Exploring Physical AI on Edge</div>
-    <div class="hero-tagline-zh">FPGA 与 SoC 软硬件协同设计 · 探索边缘端物理 AI</div>
     <div class="hero-location">
         <svg viewBox="0 0 16 16"><path d="M8 0a5.53 5.53 0 0 0-5.5 5.5c0 4.9 5.5 10.5 5.5 10.5s5.5-5.6 5.5-10.5A5.53 5.53 0 0 0 8 0zm0 7.5a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
         Shenzhen, China
@@ -223,7 +221,7 @@
         <a href="https://x.com/andrew_zyf" target="_blank" rel="noopener" class="social-btn" title="X (Twitter)">
             <svg viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
         </a>
-        <button class="social-btn" onclick="document.getElementById('wechatModal').classList.add('show')" title="WeChat 公众号">
+        <button class="social-btn" onclick="document.getElementById('wechatModal').classList.add('show')" title="WeChat">
             <svg viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-2.18 2.769c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982z"/></svg>
         </button>
     </div>
@@ -234,15 +232,9 @@
     <div class="fade-in">
         <div class="section-label">About</div>
         <div class="section-title">Who I Am</div>
-        <div class="section-title-zh">关于我</div>
-        <div class="about-grid">
-            <div class="about-text">
+        <div class="about-text" style="max-width:640px">
                 A system architect focused on bridging silicon and intelligence at the edge. I design FPGA-based computing platforms for AI inference, high-speed connectivity, and real-time signal processing. My work spans from RTL to embedded software — building systems where hardware and algorithms meet.
             </div>
-            <div class="about-text">
-                专注于边缘端硅基智能的系统架构师。我设计基于 FPGA 的计算平台，覆盖 AI 推理、高速互联与实时信号处理。工作横跨从 RTL 到嵌入式软件的全栈——在硬件与算法的交汇处构建系统。
-            </div>
-        </div>
     </div>
 </section>
 
@@ -251,10 +243,9 @@
     <div class="fade-in">
         <div class="section-label">Expertise</div>
         <div class="section-title">Technical Stack</div>
-        <div class="section-title-zh">技术栈</div>
         <div class="skills-grid">
             <div class="skill-card">
-                <h3>System Architecture / 系统架构</h3>
+                <h3>System Architecture</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">FPGA SoC</span>
                     <span class="skill-tag">HW/SW Co-design</span>
@@ -263,7 +254,7 @@
                 </div>
             </div>
             <div class="skill-card purple">
-                <h3>AI & Vision / AI 与视觉</h3>
+                <h3>AI & Vision</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">Edge AI Inference</span>
                     <span class="skill-tag">Multimodal AI</span>
@@ -272,7 +263,7 @@
                 </div>
             </div>
             <div class="skill-card green">
-                <h3>Connectivity / 高速互联</h3>
+                <h3>Connectivity</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">High-Speed Networking</span>
                     <span class="skill-tag">SerDes</span>
@@ -281,7 +272,7 @@
                 </div>
             </div>
             <div class="skill-card red">
-                <h3>Platforms / 平台</h3>
+                <h3>Platforms</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">AMD Versal</span>
                     <span class="skill-tag">Zynq UltraScale+</span>
@@ -293,47 +284,6 @@
     </div>
 </section>
 
-<!-- Projects -->
-<section id="projects">
-    <div class="fade-in">
-        <div class="section-label">Projects</div>
-        <div class="section-title">Open Source</div>
-        <div class="section-title-zh">开源项目</div>
-        <div class="projects-grid">
-            <a href="https://github.com/andrew-zyf/PLFM_RADAR" target="_blank" rel="noopener" class="project-card">
-                <h3>PLFM_RADAR</h3>
-                <p>Platform-level FMCW radar signal processing on FPGA — real-time digital beamforming and target detection.</p>
-                <p style="color:var(--text-muted);font-size:0.78rem;margin-bottom:12px">基于 FPGA 的平台级 FMCW 雷达信号处理，实时数字波束成形与目标检测。</p>
-                <div class="project-tags">
-                    <span class="project-tag">FPGA</span>
-                    <span class="project-tag">Radar</span>
-                    <span class="project-tag">DSP</span>
-                    <span class="project-tag">Verilog</span>
-                </div>
-            </a>
-            <a href="https://github.com/andrew-zyf/audio-switch" target="_blank" rel="noopener" class="project-card">
-                <h3>audio-switch</h3>
-                <p>macOS audio output device switcher — quick toggle between headphones, speakers, and other outputs.</p>
-                <p style="color:var(--text-muted);font-size:0.78rem;margin-bottom:12px">macOS 音频输出设备快速切换工具。</p>
-                <div class="project-tags">
-                    <span class="project-tag">macOS</span>
-                    <span class="project-tag">Utility</span>
-                    <span class="project-tag">Swift</span>
-                </div>
-            </a>
-            <a href="https://github.com/andrew-zyf/save-webpage-to-pdf" target="_blank" rel="noopener" class="project-card">
-                <h3>save-webpage-to-pdf</h3>
-                <p>Browser extension to save web pages as clean, readable PDFs with preserved formatting.</p>
-                <p style="color:var(--text-muted);font-size:0.78rem;margin-bottom:12px">浏览器扩展，将网页保存为排版整洁的 PDF。</p>
-                <div class="project-tags">
-                    <span class="project-tag">Extension</span>
-                    <span class="project-tag">JavaScript</span>
-                    <span class="project-tag">PDF</span>
-                </div>
-            </a>
-        </div>
-    </div>
-</section>
 
 <!-- Footer -->
 <footer>
@@ -351,7 +301,7 @@
 <!-- WeChat Modal -->
 <div class="modal-overlay" id="wechatModal" onclick="this.classList.remove('show')">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <h3>WeChat 公众号</h3>
+        <h3>WeChat</h3>
         <p>AI & FPGA</p>
         <img src="images/mp-weixin-AI&FPGA.png" alt="WeChat QR Code">
         <br>
