@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { configureLayout, BEND, CELL, TILE, RADIUS, CORE_Y, bendPoint, cellCenter, cellForPerson, isDedication, isPrimary, nearestCell, overviewZoom, personAt, unbendPoint } from './layout';
 import './style.css';
+import { damp, inertiaStep, zoomStep } from './motion';
 
 // Curved gallery direction: ol-ivier, MIT. See THIRD_PARTY_LICENSES.txt.
 type Person = { handle: string; displayName: string; profileUrl: string; bio?: string; bioStatus?: string; bioTranslated?: boolean };
@@ -119,25 +120,31 @@ async function main() {
   let located: number | null = null;
   let lastTap: { index: number; time: number; x: number; y: number } | null = null;
   let transition: { x: number; y: number; zoom: number } | null = null;
+  let zoomMotion: { zoom: number; worldX: number; worldY: number; x: number; y: number } | null = null;
   const pointers = new Map<number, Point>();
   const keys = new Set<string>();
   function wake() { if (!frame && !document.hidden) frame = requestAnimationFrame(render); }
   function change() { dirty = true; wake(); }
-  function halt(keepLocation = false) { transition = null; state.vx = 0; state.vy = 0; if (!keepLocation) located = null; }
+  function halt(keepLocation = false) { transition = null; zoomMotion = null; state.vx = 0; state.vy = 0; if (!keepLocation) located = null; }
   function setView(all: boolean) {
     halt(); overview = all;
     transition = { x: all ? 0 : coreX(), y: all ? 0 : coreY(), zoom: all ? fitZoom : homeZoom() };
     if (reducedMotion.matches) { Object.assign(state, transition); transition = null; }
     change();
   }
-  function zoomAt(factor: number, clientX = width / 2, clientY = height / 2) {
-    halt();
-    const next = THREE.MathUtils.clamp(state.zoom * factor, fitZoom, 1.8);
+  function zoomAt(factor: number, clientX = width / 2, clientY = height / 2, immediate = false) {
+    // Accumulate wheel/button input against its target, not an unfinished frame.
+    const target = zoomMotion?.zoom ?? transition?.zoom ?? state.zoom;
+    halt(); lastTap = null;
+    const next = THREE.MathUtils.clamp(target * factor, fitZoom, 1.8);
     if (next <= fitZoom * 1.001) { setView(true); return; }
     const [x, y] = unbendPoint(clientX - width/2, height/2 - clientY, height);
-    state.x += x/state.zoom - x/next;
-    state.y += y/state.zoom - y/next;
-    state.zoom = next; overview = false; change();
+    const worldX = state.x + x/state.zoom, worldY = state.y + y/state.zoom;
+    overview = false;
+    if (immediate || reducedMotion.matches) {
+      state.x = worldX - x/next; state.y = worldY - y/next; state.zoom = next;
+    } else zoomMotion = { zoom: next, worldX, worldY, x, y };
+    change();
   }
   function hitTest(clientX: number, clientY: number): Hit | null {
     const [x, y] = unbendPoint(clientX-width/2, height/2-clientY, height);
@@ -230,10 +237,18 @@ async function main() {
   function render(now: number) {
     frame=0;
     const dt=previousTime ? Math.min(now-previousTime,40) : 16.667; previousTime=now;
-    if (transition) {
-      const mix=1-Math.exp(-dt/85);
+    if (zoomMotion) {
+      state.zoom = reducedMotion.matches ? zoomMotion.zoom : zoomStep(state.zoom, zoomMotion.zoom, dt);
+      const done = Math.abs(Math.log(state.zoom / zoomMotion.zoom)) < .0001;
+      if (done) state.zoom = zoomMotion.zoom;
+      state.x = zoomMotion.worldX - zoomMotion.x/state.zoom;
+      state.y = zoomMotion.worldY - zoomMotion.y/state.zoom;
+      if (done) zoomMotion = null;
+      dirty = true;
+    } else if (transition) {
+      const mix=reducedMotion.matches ? 1 : damp(dt, 110);
       state.x+=(transition.x-state.x)*mix; state.y+=(transition.y-state.y)*mix;
-      state.zoom+=(transition.zoom-state.zoom)*mix;
+      state.zoom = reducedMotion.matches ? transition.zoom : zoomStep(state.zoom, transition.zoom, dt);
       if (Math.abs(state.x-transition.x)+Math.abs(state.y-transition.y)<.05 && Math.abs(state.zoom-transition.zoom)<.00005) { Object.assign(state,transition); transition=null; }
       dirty=true;
     } else if (!pointers.size) {
@@ -245,14 +260,15 @@ async function main() {
         if(keys.has('ArrowDown')) state.y-=speed;
         overview=false; dirty=true;
       }
-      if(Math.abs(state.vx)+Math.abs(state.vy)>.002) {
-        state.x+=state.vx*dt; state.y+=state.vy*dt;
-        const decay=reducedMotion.matches?0:Math.exp(-dt/150);
-        state.vx*=decay; state.vy*=decay; dirty=true;
+      if(!reducedMotion.matches && Math.hypot(state.vx,state.vy)*state.zoom>.015) {
+        const x = inertiaStep(state.vx, dt), y = inertiaStep(state.vy, dt);
+        state.x += x.distance; state.y += y.distance;
+        state.vx = x.velocity; state.vy = y.velocity; dirty=true;
       } else {state.vx=0;state.vy=0;}
     }
     if(dirty) {updateTiles();renderer.render(scene,camera);dirty=false;}
-    if(transition || keys.size || (!pointers.size && (state.vx || state.vy))) wake();
+    if(transition || zoomMotion || keys.size || (!pointers.size && (state.vx || state.vy))) wake();
+    else previousTime=0;
   }
   function resize() {
     const wasCompact=compact();
@@ -275,22 +291,28 @@ async function main() {
     event.preventDefault();
     const unit=event.deltaMode===1?16:event.deltaMode===2?height:1;
     if(event.ctrlKey || event.metaKey) {zoomAt(Math.exp(-event.deltaY*unit*.006),event.clientX,event.clientY);return;}
+    const target = transition ?? { x: state.x, y: state.y, zoom: state.zoom };
     halt();overview=false;lastTap=null;
-    state.x+=event.deltaX*unit/state.zoom;state.y-=event.deltaY*unit/state.zoom;
+    const x = target.x + event.deltaX*unit/state.zoom;
+    const y = target.y - event.deltaY*unit/state.zoom;
+    if (reducedMotion.matches) { state.x=x; state.y=y; }
+    else transition = { x, y, zoom: state.zoom };
     change();
   },{passive:false});
   canvas.addEventListener('pointerdown',event=>{
-    if(event.button!==0)return;
+    if(event.button!==0 || pointers.size>=2)return;
     lastPointerType=event.pointerType;
     canvas.dataset.keyboard='false';halt();canvas.setPointerCapture(event.pointerId);canvas.focus({preventScroll:true});
     pointers.set(event.pointerId,{x:event.clientX,y:event.clientY,time:event.timeStamp});
     if(pointers.size===1) {moved=false;pinched=false;startX=event.clientX;startY=event.clientY;}
     else {pinched=true;lastTap=null;}
+    material.uniforms.uHover.value=-1;
     lastMove=event.timeStamp;
   });
   canvas.addEventListener('pointermove',event=>{
     const last=pointers.get(event.pointerId);
     if(!last) {
+      if(pointers.size)return;
       const hover=hitTest(event.clientX,event.clientY)?.index ?? -1;
       if(material.uniforms.uHover.value!==hover){material.uniforms.uHover.value=hover;change();}
       return;
@@ -304,17 +326,22 @@ async function main() {
       const distance=Math.hypot(after[0].x-after[1].x,after[0].y-after[1].y);
       const oldX=(before[0].x+before[1].x)/2,oldY=(before[0].y+before[1].y)/2;
       const newX=(after[0].x+after[1].x)/2,newY=(after[0].y+after[1].y)/2;
-      if(oldDistance>0)zoomAt(distance/oldDistance,oldX,oldY);
-      if(!overview){state.x-=(newX-oldX)/state.zoom;state.y+=(newY-oldY)/state.zoom;}
+      if(oldDistance>0)zoomAt(distance/oldDistance,oldX,oldY,true);
+      if(!overview){
+        const [ox,oy]=unbendPoint(oldX-width/2,height/2-oldY,height);
+        const [nx,ny]=unbendPoint(newX-width/2,height/2-newY,height);
+        state.x+=(ox-nx)/state.zoom;state.y+=(oy-ny)/state.zoom;
+      }
     } else if(moved) {
       overview=false;
       const [oldX,oldY]=unbendPoint(last.x-width/2,height/2-last.y,height);
       const [newX,newY]=unbendPoint(event.clientX-width/2,height/2-event.clientY,height);
       const dx=(oldX-newX)/state.zoom,dy=(oldY-newY)/state.zoom;
       state.x+=dx;state.y+=dy;
-      const dt=Math.max(8,event.timeStamp-last.time);
-      state.vx=reducedMotion.matches?0:THREE.MathUtils.clamp(dx/dt,-2.5,2.5);
-      state.vy=reducedMotion.matches?0:THREE.MathUtils.clamp(dy/dt,-2.5,2.5);
+      const dt=Math.max(1,event.timeStamp-last.time);
+      const blend=damp(dt,45), limit=2.4/state.zoom;
+      state.vx=reducedMotion.matches?0:state.vx+(THREE.MathUtils.clamp(dx/dt,-limit,limit)-state.vx)*blend;
+      state.vy=reducedMotion.matches?0:state.vy+(THREE.MathUtils.clamp(dy/dt,-limit,limit)-state.vy)*blend;
       lastMove=event.timeStamp;
     }
     change();
@@ -322,7 +349,14 @@ async function main() {
   const release=(event: PointerEvent)=>{
     if(!pointers.has(event.pointerId))return;
     pointers.delete(event.pointerId);
-    if(event.timeStamp-lastMove>90 || event.type!=='pointerup' || pinched){state.vx=0;state.vy=0;}
+    const freshness=Math.max(0,1-(event.timeStamp-lastMove)/100);
+    if(event.type!=='pointerup' || pinched){state.vx=0;state.vy=0;}
+    else {state.vx*=freshness;state.vy*=freshness;}
+    // Rebase the remaining finger so lifting one finger never causes a jump.
+    if(pointers.size===1 && pinched){
+      const remaining=[...pointers.values()][0];
+      startX=remaining.x;startY=remaining.y;remaining.time=event.timeStamp;moved=true;
+    }
     if(!pointers.size && !moved && !pinched && event.type==='pointerup') {
       const hit=hitTest(event.clientX,event.clientY);
       if(event.pointerType==='touch' && hit!==null && lastTap?.index===hit.index && event.timeStamp-lastTap.time<350 && Math.hypot(event.clientX-lastTap.x,event.clientY-lastTap.y)<18) {
