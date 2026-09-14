@@ -1,0 +1,18 @@
+{
+  "name": "andrew-my-x-friends",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config artworks/my-x-friends/vite.config.mts",
+    "typecheck": "tsc --noEmit --project artworks/my-x-friends/tsconfig.json",
+    "build": "npm run typecheck && node artworks/my-x-friends/tools/check-collection.mjs && vite build --config artworks/my-x-friends/vite.config.mts"
+  },
+  "dependencies": {
+    "three": "0.185.1"
+  },
+  "devDependencies": {
+    "@types/three": "0.185.3",
+    "typescript": "~5.9.3",
+    "vite": "8.2.0"
+  }
+}
