@@ -57,7 +57,7 @@
             display: flex; align-items: center; justify-content: space-between; height: 56px;
         }
         .nav-brand { font-weight: 700; font-size: 0.95rem; color: var(--text); }
-        .nav-links { display: flex; gap: 28px; list-style: none; }
+        .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
         .nav-links a {
             color: var(--text-dim); font-size: 0.82rem; font-weight: 500;
             letter-spacing: 0.5px; transition: color 0.2s;
@@ -143,7 +143,6 @@
             text-align: center; color: var(--text-muted); font-size: 0.78rem;
             border-top: 1px solid var(--border);
         }
-        footer .footer-social { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
 
 
 
@@ -192,6 +191,9 @@
         <ul class="nav-links">
             <li><a href="#home">首页</a></li>
             <li><a href="#interests">关注方向</a></li>
+            <li><a href="/my-x-friends/" class="social-btn" title="我的 X 朋友" aria-label="我的 X 朋友">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="fill:none"><circle cx="12" cy="6" r="2.6"/><circle cx="5" cy="15" r="2.2"/><circle cx="19" cy="15" r="2.2"/><path d="M7.5 11.5a5 5 0 0 1 9 0M1.7 21v-.7a3.3 3.3 0 0 1 6.6 0v.7m7.4 0v-.7a3.3 3.3 0 0 1 6.6 0v.7M9 17h6"/></svg>
+        </a></li>
         </ul>
     </div>
 </nav>
@@ -258,11 +260,6 @@
 
 <!-- Footer -->
 <footer>
-    <div class="footer-social">
-        <a href="/my-x-friends/" class="social-btn" title="我的 X 朋友" aria-label="我的 X 朋友">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="fill:none"><circle cx="12" cy="6" r="2.6"/><circle cx="5" cy="15" r="2.2"/><circle cx="19" cy="15" r="2.2"/><path d="M7.5 11.5a5 5 0 0 1 9 0M1.7 21v-.7a3.3 3.3 0 0 1 6.6 0v.7m7.4 0v-.7a3.3 3.3 0 0 1 6.6 0v.7M9 17h6"/></svg>
-        </a>
-    </div>
     <p>求知若饥，虚心若愚</p>
 </footer>
 
