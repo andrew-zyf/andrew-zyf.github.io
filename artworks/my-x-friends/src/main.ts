@@ -110,8 +110,8 @@ async function main() {
   const coreX = () => compact() ? CELL / 2 : 0;
   const coreY = () => compact() ? 0 : CORE_Y;
   const homeZoom = () => Math.min(.62, (width - 48) / (compact() ? 800 : 1180), (height - 170) / (compact() ? 1150 : 680));
-  const state = { x: coreX(), y: coreY(), zoom: homeZoom(), vx: 0, vy: 0 };
-  let fitZoom = overviewZoom(width, height), overview = false;
+  let fitZoom = overviewZoom(width, height), overview = true;
+  const state = { x: 0, y: 0, zoom: fitZoom, vx: 0, vy: 0 };
   let frame = 0, previousTime = 0, dirty = true, moved = false, pinched = false;
   let startX = 0, startY = 0, lastMove = 0;
   let lastPointerType = 'mouse';
