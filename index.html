@@ -80,7 +80,7 @@
         }
         /* Hero */
         .hero {
-            min-height: 100vh; display: flex; flex-direction: column;
+            min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
             padding-top: 56px;
         }
@@ -189,6 +189,12 @@
             .nav-links a { font-size: var(--font-caption); }
             .section-title { margin-bottom: 32px; }
             section { padding: 72px 20px; }
+        }
+        @media (max-width: 400px) {
+            .nav-links { gap: 8px; }
+            .nav-brand { font-size: 0.75rem; white-space: nowrap; }
+            .nav-links a { white-space: nowrap; }
+            .nav-icons .social-btn { width: 40px; height: 44px; }
         }
     </style>
 </head>
