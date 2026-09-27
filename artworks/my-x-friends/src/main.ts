@@ -37,7 +37,7 @@ async function main() {
   configureLayout(collection.count);
   document.querySelector("#friend-count")!.textContent = collection.count.toLocaleString("en-US");
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
-  renderer.setClearColor('#161616');
+  renderer.setClearColor('#0b0f1a');
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.generateMipmaps = true;
