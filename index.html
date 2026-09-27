@@ -65,6 +65,7 @@
         }
         .nav-brand { font-weight: 700; font-size: 1rem; color: var(--text); }
         .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+        .nav-icons { display: flex; align-items: center; gap: 6px; }
         .nav-links a {
             color: var(--text-dim); font-size: var(--font-label); font-weight: 500;
             line-height: 1.5; transition: color 0.2s;
@@ -199,10 +200,10 @@
         <ul class="nav-links">
             <li><a href="#home">首页</a></li>
             <li><a href="#interests">关注方向</a></li>
-            <li><a href="/my-x-friends/" class="social-btn" title="我的 X 朋友" aria-label="我的 X 朋友">
+            <li class="nav-icons"><a href="/my-x-friends/" class="social-btn" title="我的 X 朋友" aria-label="我的 X 朋友">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="fill:none"><circle cx="12" cy="6" r="2.6"/><circle cx="5" cy="15" r="2.2"/><circle cx="19" cy="15" r="2.2"/><path d="M7.5 11.5a5 5 0 0 1 9 0M1.7 21v-.7a3.3 3.3 0 0 1 6.6 0v.7m7.4 0v-.7a3.3 3.3 0 0 1 6.6 0v.7M9 17h6"/></svg>
-        </a></li>
-            <li><a href="/magazines/" class="social-btn" title="全球报刊导航" aria-label="全球报刊导航"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="fill:none"><rect x="5" y="3" width="15" height="18" rx="2"/><path d="M5 7H2v12a2 2 0 0 0 2 2h3M9 7h7M9 15h7M9 18h5"/><path d="M9 10h7v2H9z"/></svg></a></li>
+        </a>
+            <a href="/magazines/" class="social-btn" title="全球报刊导航" aria-label="全球报刊导航"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="fill:none"><rect x="5" y="3" width="15" height="18" rx="2"/><path d="M5 7H2v12a2 2 0 0 0 2 2h3M9 7h7M9 15h7M9 18h5"/><path d="M9 10h7v2H9z"/></svg></a></li>
         </ul>
     </div>
 </nav>
