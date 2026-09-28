@@ -239,6 +239,7 @@ const recommendedSites=[
 const recommendedOrder=new Map(recommendedSites.map((site,index)=>[site,index]));
 const topicOrder=[...topic.options].map(option=>option.value).filter(value=>value!=='全部');
 const scopeOrder={'国际性':0,'全国性':1,'地方性':2,'专题/社区':3};
+const formatOrder=['新闻媒体','杂志期刊','研究机构','博客专栏','邮件订阅','社区论坛','视频频道','产品工具','聚合导航'];
 const nameCollator=new Intl.Collator('zh-CN',{numeric:true,sensitivity:'base'});
 for(const entry of entries){
   const url=new URL(entry.element.href);
@@ -246,6 +247,7 @@ for(const entry of entries){
   entry.name=entry.element.querySelector('h2').textContent.trim();
   entry.names=[entry.name,entry.element.querySelector('.translation')?.textContent.trim()||''].map(name=>name.toLowerCase());
   entry.primaryTopic=Object.keys(entry.topics)[0];
+  entry.formatRank=Math.min(...entry.formats.map(value=>{const index=formatOrder.indexOf(value);return index<0?formatOrder.length:index;}));
 }
 function searchRelevance(entry,query,words){
   if(!query)return 0;
@@ -263,9 +265,12 @@ function sortEntries(query,words){
       const primary=Number(b.primaryTopic===topic.value)-Number(a.primaryTopic===topic.value);
       if(primary)return primary;
     }
+    const field=topicOrder.indexOf(a.primaryTopic)-topicOrder.indexOf(b.primaryTopic);
+    if(topic.value==='全部'&&field)return field;
     if(a.recommendation!==b.recommendation)return a.recommendation-b.recommendation;
-    return topicOrder.indexOf(a.primaryTopic)-topicOrder.indexOf(b.primaryTopic)
+    return a.formatRank-b.formatRank
       ||(scopeOrder[a.element.dataset.scope]??4)-(scopeOrder[b.element.dataset.scope]??4)
+      ||Number(a.element.dataset.country==='待核实')-Number(b.element.dataset.country==='待核实')
       ||nameCollator.compare(a.element.dataset.country,b.element.dataset.country)
       ||nameCollator.compare(a.name,b.name)
       ||a.element.href.localeCompare(b.element.href);
