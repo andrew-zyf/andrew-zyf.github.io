@@ -258,6 +258,7 @@ function searchRelevance(entry,query,words){
 }
 function sortEntries(query,words){
   const sorted=[...entries].sort((a,b)=>{
+    if(a.recommendation!==b.recommendation)return a.recommendation-b.recommendation;
     const relevance=searchRelevance(b,query,words)-searchRelevance(a,query,words);
     if(relevance)return relevance;
     // A site's main field takes precedence over a secondary topic when a field is selected.
@@ -267,7 +268,6 @@ function sortEntries(query,words){
     }
     const field=topicOrder.indexOf(a.primaryTopic)-topicOrder.indexOf(b.primaryTopic);
     if(topic.value==='全部'&&field)return field;
-    if(a.recommendation!==b.recommendation)return a.recommendation-b.recommendation;
     return a.formatRank-b.formatRank
       ||(scopeOrder[a.element.dataset.scope]??4)-(scopeOrder[b.element.dataset.scope]??4)
       ||Number(a.element.dataset.country==='待核实')-Number(b.element.dataset.country==='待核实')
